@@ -305,6 +305,10 @@ function techage.can_dig_node(name, ndef)
 		SimpleNodes[name] = true
 		return true
 	end
+	if ndef.groups['jit_shadow'] == 1 then
+		SimpleNodes[name] = true
+		return true
+	end
 	-- don't remove nodes with some intelligence or undiggable nodes
 	if ndef.drop == "" then
 		SimpleNodes[name] = false
