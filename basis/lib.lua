@@ -305,6 +305,22 @@ function techage.can_dig_node(name, ndef)
 		SimpleNodes[name] = true
 		return true
 	end
+	if ndef.groups['cracky'] then
+		SimpleNodes[name] = true
+		return true
+	end
+	if ndef.groups['crumbly'] then
+		SimpleNodes[name] = true
+		return true
+	end
+	if ndef.groups['snappy'] then
+		SimpleNodes[name] = true
+		return true
+	end
+	if ndef.groups['choppy'] then
+		SimpleNodes[name] = true
+		return true
+	end
 	if ndef.groups['jit_shadow'] == 1 then
 		SimpleNodes[name] = true
 		return true
