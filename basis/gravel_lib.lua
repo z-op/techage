@@ -26,21 +26,54 @@ local ProbabilityCorrections = {
 	["techage:baborium_lump"] = 99999,  -- mining required
 }
 
+--not work properly with everness
 local function wherein(item)
-	if type(item.wherein) == "table" then
-		for _,v in ipairs(item.wherein) do
-			if v == "default:stone" then
-				return true
-			end
-			if v == "everness:forsaken_desert_stone" then
-				return true
-			end
+	if minetest.get_modpath("everness") then
+		if type(item.wherein) == "table" then
+			return true
+		else
+			return item.wherein == "default:stone"
 		end
-		return false
 	else
 		return item.wherein == "default:stone"
 	end
 end
+--[[		for _,v in ipairs(item.wherein) do
+			if v == "default:stone" then
+				return item.wherein == "default:stone"
+			end
+			if v == "everness:forsaken_desert_stone" then
+				return true
+			end
+			if v == "everness:coral_desert_stone" then
+				return true
+			end
+			if v == "everness:mineral_stone_with_coal" then
+				return true
+			end
+			if v == "everness:mineral_stone_with_ceramic_sherds" then
+				return true
+			end
+			if v == "everness:mineral_stone" then
+				return true
+			end
+			if v == "everness:crystal_stone_with_coal" then
+				return true
+			end
+			if v == "everness:coral_desert_stone_with_coal" then
+				return true
+			end
+			if v == "everness:sulfur_stone" then
+				return true
+			end
+		end
+		return false
+
+	else
+		return item.wherein == "default:stone"
+	end
+		--]]
+
 
 -- collect all registered ores and calculate the probability
 local function add_ores()
