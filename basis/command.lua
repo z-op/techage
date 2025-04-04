@@ -20,6 +20,7 @@ local has_mesecons = minetest.global_exists("mesecon")
 
 local NodeInfoCache = {}
 local NumbersToBeRecycled = {}
+local CmndOnHold = {}
 local MP = minetest.get_modpath("techage")
 local techage_use_sqlite = minetest.settings:get_bool('techage_use_sqlite', false)
 
@@ -153,6 +154,12 @@ minetest.register_globalstep(function(dtime)
 	techage.SystemTime = techage.SystemTime + dtime
 end)
 
+minetest.register_on_mods_loaded(function()
+	local nvm = techage.get_nvm0()
+	nvm.NormalShutdown = nvm.ServerCrashed == false
+	nvm.ServerCrashed = true
+end)
+
 -- used by TA1 hammer: dug_node[player_name] = pos
 techage.dug_node = {}
 minetest.register_on_dignode(function(pos, oldnode, digger)
@@ -203,6 +210,11 @@ end
 function techage.ident_value(s)
     local ident, value = unpack(string.split(s, "=", true, 1))
 	return (ident or ""):trim(), (value or ""):trim()
+end
+
+function techage.was_normal_shutdown()
+	local nvm = techage.get_nvm0()
+	return nvm.NormalShutdown
 end
 
 -------------------------------------------------------------------
@@ -372,6 +384,20 @@ function techage.check_numbers(numbers, placer_name)
 	return false
 end
 
+function techage.cmnd_hold(src)
+	CmndOnHold[src] = {}
+end
+
+function techage.cmnd_release(src)
+	local list = CmndOnHold[src]
+	if list then
+		for _,cmnd in ipairs(list) do
+			cmnd[1](cmnd[2], cmnd[3], cmnd[4], cmnd[5])
+		end
+		CmndOnHold[src] = nil
+	end
+end
+
 function techage.send_multi(src, numbers, topic, payload)
 	--print("send_multi", src, numbers, topic)
 	for _,num in ipairs(string_split(numbers, " ")) do
@@ -380,7 +406,11 @@ function techage.send_multi(src, numbers, topic, payload)
 			local ndef = NodeDef[ninfo.name]
 			if ndef and ndef.on_recv_message then
 				techage_counting_hit()
-				ndef.on_recv_message(ninfo.pos, src, topic, payload)
+				if CmndOnHold[src] then
+					table.insert(CmndOnHold[src], {ndef.on_recv_message, ninfo.pos, src, topic, payload})
+				else
+					ndef.on_recv_message(ninfo.pos, src, topic, payload)
+				end
 			end
 		end
 	end
@@ -393,7 +423,12 @@ function techage.send_single(src, number, topic, payload)
 		local ndef = NodeDef[ninfo.name]
 		if ndef and ndef.on_recv_message then
 			techage_counting_hit()
-			return ndef.on_recv_message(ninfo.pos, src, topic, payload)
+			if CmndOnHold[src] then
+				table.insert(CmndOnHold[src], {ndef.on_recv_message, ninfo.pos, src, topic, payload})
+				return true
+			else
+				return ndef.on_recv_message(ninfo.pos, src, topic, payload)
+			end
 		end
 	end
 	return false
@@ -443,7 +478,12 @@ function techage.beduino_send_cmnd(src, number, topic, payload)
 		local ndef = NodeDef[ninfo.name]
 		if ndef and ndef.on_beduino_receive_cmnd then
 			techage_counting_hit()
-			return ndef.on_beduino_receive_cmnd(ninfo.pos, src, topic, payload or {})
+			if CmndOnHold[src] then
+				table.insert(CmndOnHold[src], {ndef.on_beduino_receive_cmnd, ninfo.pos, src, topic, payload or {}})
+				return 0
+			else
+				return ndef.on_beduino_receive_cmnd(ninfo.pos, src, topic, payload or {})
+			end
 		end
 	end
 	return 1, ""
@@ -622,6 +662,23 @@ function techage.get_inv_state_num(inv, listname)
         end
     end
     return state
+end
+
+-- Return the number of items in the given inventory list
+-- that match the given item name.
+-- The item name can be a full name or a substring of the name.
+function techage.check_inv_item(inv, listname, item_name)
+    if inv:is_empty(listname) then
+        return 0
+    else
+        local list = inv:get_list(listname)
+        for _, item in ipairs(list) do
+			if item:get_name():find(item_name, 1, true) then
+				return item:get_count()
+			end
+        end
+    end
+    return 0
 end
 
 minetest.register_chatcommand("ta_send", {

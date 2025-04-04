@@ -60,7 +60,8 @@ return {
     "3,TA4 Gaze Sensor",
     "3,TA4 Sequencer",
     "2,Move/Turn Controller",
-    "3,TA4 Move Controller",
+    "3,TA4 Move Controller (deprecated)",
+    "3,TA4 Move Controller II",
     "3,TA4 Turn Controller",
     "2,TA4 Lamps",
     "3,TA4 LED Grow Light",
@@ -554,9 +555,9 @@ return {
     "Entire processes can be programmed using the TA4 sequencer. Here's an example:\n"..
     "\n"..
     "    -- this is a comment\n"..
-    "    \\[1\\] send 1234 a2b\n"..
-    "    \\[30\\] send 1234 b2a\n"..
-    "    \\[60\\] goto 1\n"..
+    "    \\[1\\] send 188 reset\n"..
+    "    \\[50\\] send 188 moveto 771\\,19\\,-280\n"..
+    "    \\[100\\] goto 1\n"..
     "\n"..
     "  - Each line begins with a number which corresponds to a point in time '\\[<num>\\]'\n"..
     "  - Values from 1 to 50000 are permitted for times\n"..
@@ -607,6 +608,32 @@ return {
     "  - If several blocks are to be moved\\, the block that is to take the players/mobs must be clicked first when training.\n"..
     "  - If the 'moveto' command is used\\, the specified target position applies to the block that is clicked first during training.\n"..
     "  - If the block that is supposed to take the players/mobs has a reduced height\\, the height must be set in the controller using the open-ended wrench menu (e.g. height = 0.5). Otherwise the player/mob will not be \"found\" and will not be taken away.\n"..
+    "\n"..
+    "\n"..
+    "\n",
+    "The TA4 Move Controller II is a further development of the TA4 Move Controller. It can move up to 16 blocks and only supports the 'moveto' and 'reset' commands.\n"..
+    "It also has an inventory where blocks are stored if they cannot be placed because the position is already occupied.\n"..
+    "\n"..
+    "In the event of a server crash or restart\\, the blocks can be restored from the inventory if necessary.\n"..
+    "\n"..
+    "Instructions:\n"..
+    "\n"..
+    "  - Place the controller and train the blocks to be moved via the menu (press the \"Record\" button). (Up to 16 blocks can be trained.)\n"..
+    "  - Test the movement using the \"Test move\" and \"Reset\" menu buttons.\n"..
+    "  - You can also fly through walls or other blocks.\n"..
+    "  - The target position for the blocks can be occupied. In this case\\, the blocks are saved in the blocks inventory. This is intended for sliding doors and similar devices.\n"..
+    "\n"..
+    "The Move Controller II supports the following techage commands:\n"..
+    "\n"..
+    "  - 'moveto' moves a block to the specified target position (the target position refers to the first selected block\\; the remaining blocks are moved relative to this position).\n"..
+    "  - 'reset' moves the block(s) back to the starting position.\n"..
+    "\n"..
+    "Example Lua Controller: '$send_cmnd(MOVE_CTLR\\, \"moveto\"\\, \"1234\\,12\\,-567\")'\n"..
+    "\n"..
+    "*Important Notes:*\n"..
+    "\n"..
+    "  - If multiple blocks are to be moved\\, the specified target position refers to the block that was clicked first during training.\nThe other blocks are moved relative to this position.\n"..
+    "  - If the block that is to carry the players/mobs has a reduced height\\, the height must be set in the controller via the wrench menu (e.g.\\, height = 0.5).\nOtherwise\\, the player/mob will not be \"found\" and therefore not carried.\n"..
     "\n"..
     "\n"..
     "\n",
@@ -996,6 +1023,7 @@ return {
     "ta4_sequencer",
     "",
     "ta4_movecontroller",
+    "ta4_movecontroller2",
     "ta4_turncontroller",
     "",
     "ta4_growlight",
@@ -1061,6 +1089,7 @@ return {
     "",
     "",
     "ta4_reactor",
+    "",
     "",
     "",
     "",

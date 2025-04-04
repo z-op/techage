@@ -15,7 +15,7 @@
 local M = minetest.get_meta
 local S = techage.S
 local SCREENSAVER_TIME = 60 * 5
-local CYCLE_TIME = 0.2
+local CYCLE_TIME = 0.1
 
 local Functions = {}
 local Actions = {}
@@ -222,12 +222,13 @@ local function renumber_lines(pos, nvm, code)
 	local num = 10
 	for line in code:gmatch("[^\r\n]+") do
 		local s = line:match("^%s*(%d+)")
-		if s and tonumber(s) < 64000 then
+		if s and tonumber(s) < num then
 			lines[#lines + 1] = num .. line:sub(s:len() + 1)
 			new_nums[s] = num
 			num = num + 10
 		else
 			lines[#lines + 1] = line
+			num = tonumber(s) + 10
 		end
 	end
 	
@@ -468,6 +469,41 @@ register_ext_function("time", {}, nanobasic.NB_NUM, function(pos, nvm)
 	return true
 end)
 
+register_ext_function("daytime", {}, nanobasic.NB_NUM, function(pos, nvm)
+	nanobasic.push_num(pos, math.floor(minetest.get_timeofday() * 1440) or 0)
+	return true
+end)
+
+register_ext_function("daytime$", {nanobasic.NB_NUM}, nanobasic.NB_STR, function(pos, nvm)
+	local british = nanobasic.pop_num(pos) or 0
+	local t = minetest.get_timeofday()
+	local h = math.floor(t * 24) % 24
+	local m = math.floor(t * 1440) % 60
+	
+	if british == 1 then
+		if h < 12 then
+			nanobasic.push_str(pos, string.format("%02d:%02d am", h, m))
+		else
+			nanobasic.push_str(pos, string.format("%02d:%02d pm", h - 12, m))
+		end
+	else
+		nanobasic.push_str(pos, string.format("%02d:%02d", h, m))
+	end
+	return true
+end)
+
+register_ext_function("hold", {}, nanobasic.NB_NONE, function(pos, nvm)
+	local own_num = M(pos):get_string("node_number")
+	techage.cmnd_hold(own_num)
+	return true
+end)
+
+register_ext_function("release", {}, nanobasic.NB_NONE, function(pos, nvm)
+	local own_num = M(pos):get_string("node_number")
+	techage.cmnd_release(own_num)
+	return true
+end)
+
 -- num: cmd(num: node_num, num: cmnd, any: pyld1, num: pyld2, num: pyld3)
 register_ext_function("cmd", {nanobasic.NB_NUM, nanobasic.NB_NUM, nanobasic.NB_ANY, nanobasic.NB_ANY, nanobasic.NB_ANY}, nanobasic.NB_NUM, function(pos, nvm)
 	local cmnd = nanobasic.peek_num(pos, 4) or 0
@@ -493,8 +529,24 @@ register_ext_function("cmd", {nanobasic.NB_NUM, nanobasic.NB_NUM, nanobasic.NB_A
 			nanobasic.push_num(pos, 4)
 			error_handling(pos, num, 4)
 		end
-	else -- request with payload as number(s) and result as number
+	elseif cmnd < 192 then -- request with payload as number(s) and result as number
 		local owner, num, own_num, payload = get_params(pos)
+		if techage.not_protected(tostring(num), owner) then
+			techage.counting_add(owner, 1)
+			local sts, resp = techage.beduino_request_data(own_num, num, cmnd, payload)
+			if type(resp) == "table" then
+				nanobasic.push_num(pos, resp[1] or 0)
+			else
+				nanobasic.push_num(pos, 5)
+				sts = 5
+			end
+			error_handling(pos, num, sts)
+		else
+			nanobasic.push_num(pos, 4)
+			error_handling(pos, num, 4)
+		end
+	else
+		local owner, num, own_num, payload = get_str_param(pos)
 		if techage.not_protected(tostring(num), owner) then
 			techage.counting_add(owner, 1)
 			local sts, resp = techage.beduino_request_data(own_num, num, cmnd, payload)
