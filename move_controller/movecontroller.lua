@@ -22,8 +22,8 @@ local MP = minetest.get_modpath("techage")
 local mark = dofile(MP .. "/basis/mark_lib.lua")
 local fly = techage.flylib
 
-local MAX_DIST = 1000
-local MAX_BLOCKS = 16
+local MAX_DIST = techage.maximum_move_controller_distance
+local MAX_BLOCKS = techage.maximum_move_controller_blocks
 
 local WRENCH_MENU = {
 	{
@@ -180,6 +180,7 @@ minetest.register_node("techage:ta4_movecontroller", {
 			end
 		elseif fields.reset then
 			fly.reset_move(pos)
+			nvm.running = false
 		elseif fields.show then
 			local name = player:get_player_name()
 			mark.mark_positions(name, nvm.lpos1, 300)

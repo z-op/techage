@@ -9,11 +9,11 @@ Regenerative Energiequellen wie Wind, Sonne und Biokraft helfen dir, das Ölzeit
 
 Eine Windkraftanlage liefern immer dann Strom, wenn Wind vorhanden ist. Im Spiel gibt es keinen Wind, aber die Mod simuliert dies dadurch, dass sich nur morgens (5:00 - 9:00) und abends (17:00 - 21:00) die Windräder drehen. Eine Windkraftanlage liefert nur dann Strom, wenn sie an einer geeigneten Stelle aufgestellt ist.
 
-Die TA Windkraftanlagen sind reine Offshore Anlagen, das heißt, die müssen im Meer errichtet werden. Dies bedeutet, dass Windkraftanlagen nur in einem Meer (occean) Biom errichtet werden können und dass um den Mast herum ausreichend Wasser und freie Sicht vorhanden sein müssen.
+Die TA Windkraftanlagen sind reine Offshore Anlagen, das heißt, die müssen im Meer errichtet werden. Dies bedeutet, dass Windkraftanlagen nur in einem Meer (ocean) Biom errichtet werden können und dass um den Mast herum ausreichend Wasser und freie Sicht vorhanden sein müssen.
 
 Um eine geeignete Stelle zu finden, musst du mit dem Schraubenschlüssel (TechAge Info Werkzeug)  auf das Wasser klicken. Ob diese Stelle für den Mast der Windkraftanlage geeignet ist, wird dir als Chat Nachricht angezeigt.
 
-Der Strom muss vom Rotor-Block durch den Mast nach unten geführt werden. Dazu zuerst die Stromleitung nach oben ziehen und das Stromkabel dann mit TA4 Säulenblöcke "verputzen". Unten kann eine Arbeitsplattform errichtet werden. Der Plan rechts zeigt den Aufbau im oberen Teil.
+Der Strom muss vom Rotor-Block durch den Mast nach unten geführt werden. Dazu zuerst die Stromleitung nach oben ziehen und das Stromkabel dann mit TA4 Säulenblöcken "verputzen". Unten kann eine Arbeitsplattform errichtet werden. Der Plan rechts zeigt den Aufbau im oberen Teil.
 
 Die Windkraftanlage liefert eine Leistung von 70 ku, aber dies nur 8 Stunden am Tag (siehe oben).
 
@@ -44,7 +44,7 @@ Dieses Blinklicht ist nur für dekorative Zwecke und kann oben auf den Wind Turb
 
 ### TA4 Säule / Pillar
 
-Damit wird der Mast für die Windkraftanlage gebaut. Allerdings werden diese Blöcke nicht von Hand gesetzt sondern müssen mit Hilfe der Kelle gesetzt werden, so dass die Stromleitung zur Mastspitze mit diesen Blöcken ersetzt wird (siehe unter TA Stromkabel).
+Damit wird der Mast für die Windkraftanlage gebaut. Allerdings werden diese Blöcke nicht von Hand gesetzt, sondern müssen mithilfe der Kelle gesetzt werden, sodass die Stromleitung zur Mastspitze mit diesen Blöcken ersetzt wird (siehe unter TA Stromkabel).
 
 [ta4_pillar|image]
 
@@ -54,7 +54,7 @@ Damit wird der Mast für die Windkraftanlage gebaut. Allerdings werden diese Bl�
 Die Solaranlage produziert nur Strom, wenn die Sonne scheint. Im Spiel ist das jeder Spieltag von morgens 6:00 bis abends 18:00.
 In dieser Zeit steht immer die gleiche Leistung zur Verfügung. Nach 18:00 schalten die Solarmodule komplett ab.
 
-Für die Leistung der Solarmodule ist die Biome Temperatur entscheidend. Je heißer die Temperatur, um so höher der Ertrag.
+Für die Leistung der Solarmodule ist die Biomtemperatur entscheidend. Je größer die Temperatur, umso höher der Ertrag.
 Die Biome Temperatur kann mit dem Techage Info Tool (Schraubenschlüssel) bestimmt werden. Sie schwankt typischerweise zwischen 0 und 100:
 
 - bei 100 steht die volle Leistung zur Verfügung
@@ -80,7 +80,7 @@ Der Kartenbereich, wo die Solaranlage steht, muss komplett geladen sein. Die gil
 
 Das Solarmodul muss an das Trägermodul gesetzt werden. Es sind immer zwei Solarmodule notwendig.
 Im Paar leisten die Solarmodule bis 3 ku, je nach Temperatur.
-Bei den Solarmodul muss darauf geachtet werden, dass diese das volle Tageslicht haben und nicht durch Blöcke oder Bäume beschattet sind. Getestet kann dies mit dem Info Tool (Schraubenschlüssel).
+Bei den Solarmodulen muss darauf geachtet werden, dass diese das volle Tageslicht haben und nicht durch Blöcke oder Bäume beschattet sind. Getestet kann dies mit dem Info Tool (Schraubenschlüssel).
 
 [ta4_solarmodule|image]
 
@@ -168,7 +168,7 @@ Die Turbine ist Teil des Energiespeichers. Sie muss neben den Generator gesetzt 
 
 ### TA4 Generator
 
-Der Generator  ist Teil des Energiespeichers. Er dient zur Stromerzeugung und gibt damt die Energie des Energiespeichers wieder ab. Daher muss auch der Generator am Stromnetz angeschlossen werden. 
+Der Generator  ist Teil des Energiespeichers. Er dient zur Stromerzeugung und gibt damit die Energie des Energiespeichers wieder ab. Daher muss auch der Generator am Stromnetz angeschlossen werden. 
 
 Wichtig: Wärmetauscher und Generator müssen mit ein und demselben Stromnetz verbunden sein!
 
@@ -243,10 +243,10 @@ Die Laserblöcke selbst benötigen keinen Strom.
 
 ## Wasserstoff
 
-Strom kann mittels Elektrolyse in Wasserstoff und Sauerstoff aufgespalten werden. Auf der anderen Seite kann über eine Brennstoffzelle Wasserstoff mit Sauerstoff aus der Luft wieder in Strom umgewandelt werden.
+Wasser kann mittels Elektrolyse unter Verwendung von Strom in Wasserstoff und Sauerstoff aufgespalten werden. Auf der anderen Seite kann über eine Brennstoffzelle Wasserstoff mit Sauerstoff aus der Luft wieder in Strom umgewandelt werden.
 Damit können Stromspitzen oder ein Überangebot an Strom in Wasserstoff umgewandelt und so gespeichert werden.
 
-Im Spiel kann Strom mit Hilfe des Elektrolyseurs in Wasserstoff und Wasserstoff über die Brennstoffzelle wieder in Strom umgewandelt werden.
+Im Spiel kann Strom mit Hilfe des Elektrolyseurs und Wasser in Wasserstoff umgewandelt werden. Dieser Wasserstoff kann dann über die Brennstoffzelle wieder in Strom umgewandelt werden.
 Damit kann Strom (in Form von Wasserstoff) nicht nur in Tanks gelagert, sonder mit dem Tankwagen auch transportiert werden.
 
 Die Umwandlung von Strom in Wasserstoff und zurück ist aber verlustbehaftet. Von 100 Einheiten Strom kommen nach der Umwandlung in Wasserstoff und zurück nur 95 Einheiten Strom wieder raus.
@@ -256,8 +256,8 @@ Die Umwandlung von Strom in Wasserstoff und zurück ist aber verlustbehaftet. Vo
 
 ### Elektrolyseur
 
-Der Elektrolyseur wandelt Strom in Wasserstoff um.  
-Es muss von links mit Strom versorgt werden. Rechts kann Wasserstoff über Röhren und Pumpen entnommen werden.
+Der Elektrolyseur wandelt Strom und Wasser in Wasserstoff um.  
+Es muss von links mit Strom versorgt werden. Wasser muss über Röhren zugeführt werden. Rechts kann Wasserstoff über Röhren und Pumpen entnommen werden.
 
 Der Elektrolyseur kann bis zu 35 ku an Strom aufnehmen und generiert dann alle 4 s ein Wasserstoff Item.
 In den Elektrolyseur passen 200 Einheiten Wasserstoff.
@@ -345,7 +345,7 @@ Teil des Chemischen Reaktors. Muss auf den Reaktor gesetzt werden. Wenn dies nic
 
 Teil des Chemischen Reaktors. Hier ist auch der Stromanschluss für den Reaktor. Der Reaktor benötigt 8 ku Strom.
 
-Der Ständer hat zwei Leitungsanschlüsse, nach rechst für das primäre Ausgabeprodukt und nach unten für den Abfall, wie bspw. Rotschlamm bei der Aluminiumherstellung.
+Der Ständer hat zwei Leitungsanschlüsse, nach rechts für das primäre Ausgabeprodukt und nach unten für den Abfall, wie bspw. Rotschlamm bei der Aluminiumherstellung.
 
 [ta4_reactorstand|image]
 
@@ -389,7 +389,7 @@ Beispiele für Regeln sind:
 
 Der Controller prüft diese Regeln zyklisch. Dazu muss pro Regel eine Zykluszeit in Sekunden (```Cycle/s```) angegeben werden (1..1000). 
 
-Für Regeln die einen on/off Eingang auswerten, bspw. von einen Schalter oder Detektor, muss als Zykluszeit 0 angegeben werden. Der Wert 0 bedeutet, dass diese Regel immer dann ausgeführt werden soll, wenn sich das Eingangssignal geändert hat, also bspw. der Button einen neuen Wert gesendet hat.
+Für Regeln die einen on/off Eingang auswerten, bspw. von einem Schalter oder Detektor, muss als Zykluszeit 0 angegeben werden. Der Wert 0 bedeutet, dass diese Regel immer dann ausgeführt werden soll, wenn sich das Eingangssignal geändert hat, also bspw. der Button einen neuen Wert gesendet hat.
 
 Alle Regeln sollten nur so oft wie notwendig ausgeführt werden. Dies hat zwei Vorteile:
 
@@ -407,26 +407,6 @@ Der Controller hat eine eigene Hilfe und Hinweise zu allen Kommandos über das C
 Die Batterie muss in unmittelbarer Nähe zum Controller platziert werden, also an einer der 26 Positionen um den Controller herum.
 
 [ta4_battery|image]
-
-### TA4 Display
-
-Das Display zeigt nach dem Platzieren seine Nummer an. Über diese Nummer kann das Display angesprochen werden. Auf dem Display können Texte ausgegeben werden, wobei das Display 5 Zeilen und damit 5 unterschiedliche Texte darstellen kann.
-
-Textzeilen werden immer linksbündig ausgegeben. Soll der Text horizontal zentriert ausgerichtet werden, muss dem Text das Zeichen „\t“ (Tabulator) vorangestellt werden.
-
-Das Display wird maximal ein mal pro Sekunde aktualisiert.
-
-[ta4_display|image]
-
-### TA4 Display XL
-
-Das TA4 Display XL hat die doppelte Größ wie das TA4 Display.
-
-Textzeilen werden immer linksbündig ausgegeben. Soll der Text horizontal zentriert ausgerichtet werden, muss dem Text das Zeichen „\t“ (Tabulator) vorangestellt werden.
-
-Das Display wird maximal alle zwei Sekunden aktualisiert.
-
-[ta4_displayXL|image]
 
 
 ### TA4 Signal Tower
@@ -475,7 +455,78 @@ Das Terminal dient zur Ein-/Ausgabe für den Lua Controller.
 
 [ta4_terminal|image]
 
+## TA4 Displays
 
+Techage bietet verschiedene Displays, die zur Anzeige von Texten genutzt werden können. Die Displays können bspw. über den Lua Controller,
+aber auch über den ICTA Controller, oder über das TA3 Terminal angesprochen werden.
+
+- TA4 Display / TA4 Display XL: Anzeige von 5 Textzeilen in Proportionalschrift. Durch die flexible Zeichenbreite können unterschiedlich viele Zeichen pro Zeile dargestellt werden.
+- TA4 Display II / TA4 Display II XXL: Anzeige von bis zu 20 Textzeilen in Festbreitenschriften. Die maximal darstellbare Zeichenanzahl pro Zeile ist hier fest definiert.
+
+Alle Displays zeigen nach dem Platzieren eine Nummer an. Über diese Nummer können die Displays angesprochen werden. Alle Displays besitzen dazu die gleichen Kommandos.
+
+Die Kommandos zur Ansteuerung im BASIC-Mode:
+
+```BASIC
+10 DCLR(num)              ' Lösche den Bildschirm mit der Nummer 'num'.
+20 DPUTS(num, row, text)  ' Textausgabe auf den Bildschirm in Zeile 'row' (1..n).
+                          ' Der Wert 0 für 'row' bedeutet, dass der Text nach der 
+                          ' letzten Zeile angehängt wird.
+```
+
+Die Kommandos zur Ansteuerung durch den Lua Controller:
+
+```lua
+$clear_screen(num)        -- Lösche den Bildschirm mit der Nummer 'num'.
+$display(num, row, text)  -- Textausgabe auf den Bildschirm in Zeile 'row' (1..n).
+                          -- Der Wert 0 für 'row' bedeutet, dass der Text nach der 
+                          -- letzten Zeile angehängt wird.
+```
+
+[ta4_display2|image]
+
+### TA4 Display
+
+Auf dem Display können Texte ausgegeben werden, wobei das Display 5 Zeilen darstellen kann.
+
+Textzeilen werden immer linksbündig ausgegeben. Soll der Text horizontal zentriert ausgerichtet werden, muss dem Text das Zeichen „\t“ (Tabulator) vorangestellt werden.
+
+Das Display wird maximal ein mal pro Sekunde aktualisiert.
+
+[ta4_display|image]
+
+### TA4 Display XL
+
+Das TA4 Display XL hat die doppelte Größe wie das TA4 Display.
+
+Textzeilen werden immer linksbündig ausgegeben. Soll der Text horizontal zentriert ausgerichtet werden, muss dem Text das Zeichen „\t“ (Tabulator) vorangestellt werden.
+
+Das Display wird maximal alle zwei Sekunden aktualisiert.
+
+[ta4_displayXL|image]
+
+### TA4 Display II
+
+Das Display ist flexibel konfigurierbar. Über das Schraubenschlüssel-Menü können die Anzahl der Zeilen und Zeichen pro Zeile,
+sowie die Text- und Hintergrundfarbe eingestellt werden:
+
+- Die Bildschirmauflösung kann im Bereich von 16x8 bis 40x20 Zeichen x Zeilen eingestellt werden.
+- Die Textfarbe kann als Farbcode im Bereich von 0 bis 63 eingestellt werden.
+- Die Hintergrundfarbe kann ebenfalls als Farbcode im Bereich von 0 bis 63 eingestellt werden.
+
+Das Chat-Kommando `/ta_color64' zeigt die Farbpallette mit den Farbcodes an.
+
+Die Updaterate des Displays ist direkt abhängig von der Auflösung und beträgt eine Sekunde bei 16x8 und ca. 6 Sekunden bei 40x20.
+
+[ta4_display2|image]
+
+### TA4 Display II XXL
+
+Für das XXL Display gelten die gleichen Einstellungen wie für das Display II. Das XXL Display hat aber die 9-fache Größe des Display II
+und besteht daher aus einem zentralem "TA4 Display II XXL innen" Block und weiteren 8 "TA4 Display II XXL außen" Blöcken, die
+entsprechend um den zentralen Block platziert werden müssen.
+
+[ta4_displayXXL|image]
 
 ## TA4 Logik-/Schalt-Module
 
@@ -572,9 +623,9 @@ Der TA4 Blicksensor kann nur mit dem Gabelschlüsselmenü programmiert werden. H
 
 ```
 -- this is a comment
-[1] send 1234 a2b
-[30] send 1234 b2a
-[60] goto 1
+[1] send 188 reset
+[50] send 188 moveto 771,19,-280
+[100] goto 1
 ```
 
 - Jede Zeile beginnt mit einem Nummer, welche einem Zeitpunkt entspricht `[<num>]`
@@ -604,7 +655,7 @@ Das `goto` Kommando wird nur angenommen, wenn der Sequenzer gestoppt ist.
 
 ## Move/Dreh-Controller
 
-### TA4 Move Controller
+### TA4 Move Controller (Veraltet)
 
 Der TA4 Move Controller ist ähnlich zum "Door Controller 2", aber die ausgewählten Blöcke werden nicht entfernt, sondern können bewegt werden.
 Da die bewegten Blöcke Spieler und Mobs mitnehmen können, die auf dem Block stehen, können damit Fahrstühle und ähnliche Transportsysteme gebaut werden.
@@ -612,10 +663,10 @@ Da die bewegten Blöcke Spieler und Mobs mitnehmen können, die auf dem Block st
 Anleitung:
 
 - Controller setzen und die Blöcke, die bewegt werden sollen, über das Menü (Taste "Aufzeichnen") an-trainieren (Es können bis zu 16 Blöcke an-trainiert werden)
-- die "Flugstrecke" muss über eine x,y,z Angabe (relativ) eingegeben werden (die maximale Distanz beträgt 1000 m)
-- mit den Menü-Tasten "Bewege A-B" sowie "Bewege B-A" kann die Bewegung getestet werden
-- man kann auch durch Wände oder andere Blöcke fliegen
-- auch die Zielposition für die Blöcke kann belegt sein. Die Blöcke werden in diesem Falle "unsichtbar" gespeichert. Dies ist für Schiebetüren und ähnliches gedacht
+- Die "Flugstrecke" muss über eine x,y,z Angabe (relativ) eingegeben werden (die maximale Distanz beträgt 1000 m)
+- Mit den Menü-Tasten "Bewege A-B" sowie "Bewege B-A" kann die Bewegung getestet werden
+- Man kann auch durch Wände oder andere Blöcke fliegen
+- Die Zielposition für die Blöcke kann belegt sein. Die Blöcke werden in diesem Falle "unsichtbar" gespeichert. Dies ist für Schiebetüren und ähnliches gedacht
 
 Der Move Controller unterstützt folgende techage Kommandos:
 
@@ -634,9 +685,39 @@ Der Move Controller unterstützt folgende techage Kommandos:
 
 - Sofern mehrere Blöcke bewegt werden sollen, muss der Block, der die Spieler/Mobs mitnehmen soll, beim Antrainieren als erstes angeklickt werden.
 - Wird das `moveto` Kommando genutzt, so gilt die angegebene Zielposition für den Block, der beim Antrainieren als erstes angeklickt wird.
-- Hat der Block, der die Spieler/Mobs mitnehmen soll, eine reduzierte Höhe, so muss die Höhe im Controller über das Schraubenschlüsselmenü eingestellt werden (bspw. Höhe = 0.5). Ansonsten wird der Spieler/Mob nicht "gefunden" und damit nicht mitgenommen.
+- Hat der Block, der die Spieler/Mobs mitnehmen soll, eine reduzierte Höhe, so muss die Höhe im Controller über das Schraubenschlüsselmenü eingestellt werden (bspw. Höhe = 0.5).
+  Ansonsten wird der Spieler/Mob nicht "gefunden" und damit nicht mitgenommen.
 
 [ta4_movecontroller|image]
+
+### TA4 Move Controller II
+
+Der TA4 Move Controller II ist eine Weiterentwicklung des TA4 Move Controllers. Er kann bis zu 16 Blöcke bewegen und unterstützt nur noch die `moveto` und `reset` Kommandos.
+Außerdem besitzt er ein Inventar, in dem die Blöcke gespeichert werden, sofern sie nicht platziert werden können, da die Position bereits belegt ist.
+Im Falle eines Server-Crashs oder eines Neustarts können die Blöcke ggf. aus dem Inventar wiederhergestellt werden.
+
+Anleitung:
+
+- Controller setzen und die Blöcke, die bewegt werden sollen, über das Menü (Taste "Aufzeichnen") an-trainieren (Es können bis zu 16 Blöcke an-trainiert werden)
+- Mit den Menü-Tasten "Teste Bewegung" sowie "Rücksetzen" kann die Bewegung getestet werden
+- Man kann auch durch Wände oder andere Blöcke fliegen
+- Die Zielposition für die Blöcke kann belegt sein. Die Blöcke werden in diesem Falle im Block-Inventar gespeichert. Dies ist für Schiebetüren und ähnliches gedacht
+
+Der Move Controller II unterstützt folgende techage Kommandos:
+
+- `moveto` verschiebt Block an die angegebene Zielposition (die Zielposition bezieht sich auf den ersten markierten Block, die weiteren Blöcke werden relativ zu dieser Position verschoben)
+- `reset` Block/Blöcke zurück in Startposition bewegen
+
+Beispiel Lua Controller: `$send_cmnd(MOVE_CTLR, "moveto", "1234,12,-567")`
+
+**Wichtige Hinweise:**
+
+- Sofern mehrere Blöcke bewegt werden sollen, bezieht sich die angegebene Zielposition auf den Block, der beim Antrainieren als erstes angeklickt wurde.
+  Die anderen Blöcke werden relativ zu dieser Position verschoben.
+- Hat der Block, der die Spieler/Mobs mitnehmen soll, eine reduzierte Höhe, so muss die Höhe im Controller über das Schraubenschlüsselmenü eingestellt werden (bspw. Höhe = 0.5).
+  Ansonsten wird der Spieler/Mob nicht "gefunden" und damit nicht mitgenommen.
+
+[ta4_movecontroller2|image]
 
 ### TA4 Drehcontroller / Turn Controller
 
@@ -922,7 +1003,7 @@ Hier die zusätzlichen Kommandos für den Lua Controller:
   Beispiel:  `$send_cmnd(1234, "config", "default:dirt")`
   Mit `$send_cmnd(1234, "config", "")` wird die Konfiguration gelöscht
 - `limit` dient zum Setzen der Anzahl der Items für die Durchlaufbegrenzer Betriebsart:
-  Beispiel: `$send_cmnd(1234, "init", 7)`
+  Beispiel: `$send_cmnd(1234, "limit", 7)`
   
 
 [ta4_pusher|image]
@@ -937,7 +1018,7 @@ Zusätzlich besitzt die TA4 Kiste ein Schatteninventar zur Konfiguration. Hier k
 
 ### TA4 8x2000 Kiste / TA4 8x2000 Chest
 
-Die TA4 8x2000 Kiste hat kein normales Inventar wir andere Kisten, sondern verfügt über 8 Speicher, wobei jeder Speicher bis zu 2000 Items einer Sorte aufnehmen kann. Über die orangefarbenen Taster können Items in den Speicher verschoben bzw. wieder heraus geholt werden. Die Kiste kann auch wie sonst üblich mit einem Schieber (TA2, TA3 oder TA4) gefüllt bzw. geleert werden.
+Die TA4 8x2000 Kiste hat kein normales Inventar wie andere Kisten, sondern verfügt über 8 Speicher, wobei jeder Speicher bis zu 2000 Items einer Sorte aufnehmen kann. Über die orangefarbenen Taster können Items in den Speicher verschoben bzw. wieder heraus geholt werden. Die Kiste kann auch wie sonst üblich mit einem Schieber (TA2, TA3 oder TA4) gefüllt bzw. geleert werden.
 
 Wird die Kiste mit einem Schieber gefüllt, so füllen sich alle Speicherplätze von links nach rechts. Sind alle 8 Speicher voll und können keine weiteren Items hinzugefügt werden, so werden weitere Items werden abgewiesen.
 
