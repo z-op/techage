@@ -903,7 +903,7 @@ TA1 Lighter=TA1 Блок растопки
 ### liquid_lib.lua ###
 
 Allow public access to the tank=Разрешить публичный доступ к резервуару
-Liquid Tank=Резервур для жидкости
+Liquid Tank=Резервуар для жидкости
 To add liquids punch@nthe tank@nwith a liquid container=Чтобы добавить жидкость, ударьте@nрезервуар@nемкостью с жидкостью
 
 ### liquid_lib.lua ###
