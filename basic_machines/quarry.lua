@@ -80,15 +80,29 @@ end
 
 local function play_sound(pos)
 	local mem = techage.get_mem(pos)
-	if not mem.handle or mem.handle == -1 then
-		mem.handle = minetest.sound_play("techage_quarry", {
-			pos = pos,
-			gain = 1.5,
-			max_hear_distance = 15,
-			loop = true})
-		if mem.handle == -1 then
-			minetest.after(1, play_sound, pos)
-		end
+
+	-- Сначала всегда останавливаем старый звук
+	if mem.handle then
+		minetest.sound_stop(mem.handle)
+		mem.handle = nil
+	end
+
+	-- Проверяем, должно ли устройство быть в состоянии RUNNING
+	local nvm = techage.get_nvm(pos)
+	if nvm.techage_state ~= techage.RUNNING then
+		return -- Не воспроизводим звук, если устройство не работает
+	end
+
+	-- Запускаем новый звук
+	mem.handle = minetest.sound_play("techage_quarry", {
+		pos = pos,
+		gain = 1.5,
+		max_hear_distance = 15,
+		loop = true})
+
+	if mem.handle == -1 then
+		mem.handle = nil
+		minetest.after(1, play_sound, pos)
 	end
 end
 
@@ -105,10 +119,13 @@ local function on_node_state_change(pos, old_state, new_state)
 	local owner = M(pos):get_string("owner")
 	mem.co = nil
 	techage.unmark_position(owner)
+
+	-- Всегда останавливаем звук при любом изменении состояния
+	stop_sound(pos)
+
+	-- И запускаем только если новое состояние - RUNNING
 	if new_state == techage.RUNNING then
 		play_sound(pos)
-	else
-		stop_sound(pos)
 	end
 end
 
@@ -131,7 +148,6 @@ local function allow_metadata_inventory_take(pos, listname, index, stack, player
 	end
 	return stack:get_count()
 end
-
 
 local function get_quarry_pos(pos, xoffs, zoffs)
 	return {x = pos.x + xoffs - 1, y = pos.y, z = pos.z + zoffs - 1}
@@ -194,62 +210,109 @@ local function quarry_task(pos, crd, nvm)
 
 	local pos1, pos2 = get_corner_positions(pos, facedir, nvm.hole_diameter)
 	nvm.level = 1
-	for y_curr = y_first, y_last, -1 do
-		pos1.y = y_curr
-		pos2.y = y_curr
 
-		-- Restarting the server can detach the coroutine data.
-		-- Therefore, read nvm again.
-		nvm = techage.get_nvm(pos)
-		nvm.level = y_first - y_curr
+	-- Обернем выполнение в pcall для безопасной обработки ошибок
+	local success, task_err = pcall(function()
+		for y_curr = y_first, y_last, -1 do
+			pos1.y = y_curr
+			pos2.y = y_curr
 
-		if minetest.is_area_protected(pos1, pos2, owner, 5) then
-			crd.State:fault(pos, nvm, S("area is protected"))
-			return
-		end
+			-- Restarting the server can detach the coroutine data.
+			-- Therefore, read nvm again.
+			nvm = techage.get_nvm(pos)
+			nvm.level = y_first - y_curr
 
-		if not is_air_level(pos1, pos2, nvm.hole_diameter) then
-			mark_area(pos1, pos2, owner)
-			M(pos):set_string("formspec", formspec(CRD(pos).State, pos, nvm))
-			coroutine.yield()
+			if minetest.is_area_protected(pos1, pos2, owner, 5) then
+				crd.State:fault(pos, nvm, S("area is protected"))
+				return
+			end
 
-			for zoffs = 1, nvm.hole_diameter do
-				for xoffs = 1, nvm.hole_diameter do
-					local qpos = get_quarry_pos(pos1, xoffs, zoffs)
-					local dig_state = techage.dig_like_player(qpos, fake_player, add_to_inv)
+			if not is_air_level(pos1, pos2, nvm.hole_diameter) then
+				mark_area(pos1, pos2, owner)
+				M(pos):set_string("formspec", formspec(CRD(pos).State, pos, nvm))
+				coroutine.yield()
 
-					if dig_state == techage.dig_states.INV_FULL then
-						crd.State:blocked(pos, nvm, S("inventory full"))
-						coroutine.yield()
-					elseif dig_state == techage.dig_states.DUG then
-						crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
-						coroutine.yield()
+				for zoffs = 1, nvm.hole_diameter do
+					for xoffs = 1, nvm.hole_diameter do
+						local qpos = get_quarry_pos(pos1, xoffs, zoffs)
+						local dig_state = techage.dig_like_player(qpos, fake_player, add_to_inv)
+
+						if dig_state == techage.dig_states.INV_FULL then
+							crd.State:blocked(pos, nvm, S("inventory full"))
+							coroutine.yield()
+						elseif dig_state == techage.dig_states.DUG then
+							crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
+							coroutine.yield()
+						end
 					end
 				end
+				techage.unmark_position(owner)
 			end
-			techage.unmark_position(owner)
 		end
-	end
-	crd.State:stop(pos, nvm, S("finished"))
+		crd.State:stop(pos, nvm, S("finished"))
+	end)
+
+	-- Гарантированно останавливаем звук при любом завершении задачи
 	stop_sound(pos)
+
+	-- Обрабатываем ошибки
+	if not success then
+		minetest.log("error", "[TA4 Quarry Coroutine Error] at pos " ..
+					minetest.pos_to_string(pos) .. " " .. task_err)
+		crd.State:stop(pos, nvm, S("error occurred"))
+	end
 end
 
 local function keep_running(pos, elapsed)
 	local mem = techage.get_mem(pos)
+	local nvm = techage.get_nvm(pos)
+	local crd = CRD(pos)
+
+	-- Проверяем состояние перед выполнением
+	if nvm.techage_state ~= techage.RUNNING then
+		stop_sound(pos)
+		if mem.co then
+			mem.co = nil  -- Очищаем корутину
+		end
+		return
+	end
+
+	-- Создаем корутину если нужно
 	if not mem.co then
 		mem.co = coroutine.create(quarry_task)
 	end
 
-	local nvm = techage.get_nvm(pos)
-	local crd = CRD(pos)
-	local _, err = coroutine.resume(mem.co, pos, crd, nvm)
-	if err then
-		minetest.log("error", "[TA4 Quarry Coroutine Error] at pos " .. minetest.pos_to_string(pos) .. " " .. err)
+	-- Проверяем статус корутины
+	local coro_status = coroutine.status(mem.co)
+	if coro_status == "dead" then
+		stop_sound(pos)
+		mem.co = nil
+		return
+	end
+
+	-- Выполняем корутину
+	local success, err = coroutine.resume(mem.co, pos, crd, nvm)
+
+	if not success then
+		minetest.log("error", "[TA4 Quarry Coroutine Error] at pos " ..
+					minetest.pos_to_string(pos) .. " " .. err)
+		stop_sound(pos)
+		mem.co = nil
+		crd.State:stop(pos, nvm, S("error occurred"))
+		return
+	end
+
+	-- Проверяем завершение
+	if coroutine.status(mem.co) == "dead" then
+		stop_sound(pos)
+		mem.co = nil
 	end
 
 	if techage.is_activeformspec(pos) then
 		M(pos):set_string("formspec", formspec(crd.State, pos, nvm))
 	end
+
+	-- Дополнительная проверка состояния
 	if nvm.techage_state ~= techage.RUNNING then
 		stop_sound(pos)
 	end
@@ -276,6 +339,10 @@ local function on_receive_fields(pos, formname, fields, player)
 	local nvm = techage.get_nvm(pos)
 	local mem = techage.get_mem(pos)
 
+	-- Всегда останавливаем звук при изменении настроек
+	stop_sound(pos)
+	mem.co = nil
+
 	if fields.depth then
 		if tonumber(fields.depth) ~= nvm.quarry_depth then
 			nvm.quarry_depth = tonumber(fields.depth)
@@ -284,7 +351,6 @@ local function on_receive_fields(pos, formname, fields, player)
 			elseif CRD(pos).stage == 3 then
 				nvm.quarry_depth = math.min(nvm.quarry_depth, 40)
 			end
-			mem.co = nil
 			CRD(pos).State:stop(pos, nvm)
 		end
 	end
@@ -292,7 +358,6 @@ local function on_receive_fields(pos, formname, fields, player)
 	if fields.level then
 		if tonumber(fields.level) ~= nvm.start_level then
 			nvm.start_level = tonumber(fields.level)
-			mem.co = nil
 			CRD(pos).State:stop(pos, nvm)
 		end
 	end
@@ -302,14 +367,12 @@ local function on_receive_fields(pos, formname, fields, player)
 			if fields.hole_size ~= nvm.hole_size then
 				nvm.hole_size = fields.hole_size
 				nvm.hole_diameter = Holesize2Diameter[fields.hole_size or "5x5"] or 5
-				mem.co = nil
 				CRD(pos).State:stop(pos, nvm)
 			end
 		elseif CRD(pos).stage == 3 then
 			if fields.hole_size ~= nvm.hole_size then
 				nvm.hole_size = fields.hole_size
 				nvm.hole_diameter = Holesize2Diameter[fields.hole_size or "7x7"] or 7
-				mem.co = nil
 				CRD(pos).State:stop(pos, nvm)
 			end
 		else
@@ -396,8 +459,21 @@ local tubing = {
 	on_node_load = function(pos)
 		CRD(pos).State:on_node_load(pos)
 		local nvm = techage.get_nvm(pos)
-		if nvm.techage_state == techage.RUNNING then
-			stop_sound(pos)
+		local mem = techage.get_mem(pos)
+
+		-- При перезагрузке всегда проверяем состояние и звук
+		if nvm.techage_state ~= techage.RUNNING then
+			-- Гарантированно выключаем звук если не в состоянии RUNNING
+			if mem.handle then
+				minetest.sound_stop(mem.handle)
+				mem.handle = nil
+			end
+		elseif nvm.techage_state == techage.RUNNING then
+			-- Перезапускаем звук только если действительно работает
+			if mem.handle then
+				minetest.sound_stop(mem.handle)
+				mem.handle = nil
+			end
 			play_sound(pos)
 		end
 	end,
