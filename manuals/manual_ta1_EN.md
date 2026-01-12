@@ -142,7 +142,7 @@ The hopper can also put items in boxes if the box is next to the hopper.
 [ta1_hopper|image]
 
 
-### Gravel seven with the hopper
+### Gravel sieve with the hopper
 
 With the help of two boxes, two hoppers and a gravel sieve, the sieving process can be automated. The plan on the right shows the structure.
 

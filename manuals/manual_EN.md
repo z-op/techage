@@ -121,7 +121,7 @@ It is required for the production of aluminum, which is mainly used in TA4.
 Basalt is only created when lava and water come together.
 The best thing to do is to set up a system where a lava and a water source flow together.
 Basalt is formed where both liquids meet.
-You can build an automated basalt generator with the Sign Bot.
+You can build an automated basalt generator with the Sign Bot or Quarry.
 
 [basalt|image]
 
@@ -131,8 +131,8 @@ You can build an automated basalt generator with the Sign Bot.
 - 28.09.2019: Solar system added
 - 05.10.2019: Data on the solar system and description of the inverter and the power terminal changed
 - 18.11.2019: Chapter for ores, reactor, aluminum, silo, bauxite, furnace heating, gravel washing system added
-- 22.02.2020: corrections and chapters on the update
+- 22.02.2020: Сorrections and chapters on the update
 - 29.02.2020: ICTA controller added and further corrections
-- 14.03.2020 Lua controller added and further corrections
-- 22.03.2020 More TA4 blocks added
+- 14.03.2020: Lua controller added and further corrections
+- 22.03.2020: More TA4 blocks added
 

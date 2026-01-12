@@ -26,113 +26,111 @@ TA5: Будущее
 
 ## Hints
 
-Эта документация доступна как «в игре» (Блок - план строительства), так и на GitHub в виде MD-файлов.
+Эта документация доступна как в игре (Блок - план строительства), так и на GitHub в виде MD-файлов.
 
 - Ссылка: https://github.com/joe7575/techage/wiki
 
 Планы (схемы) строительства машин и картинки доступны только в игре.
 
-With Tech Age you have to start over. You can only create TA2 blocks with the items from TA1, for TA3 you need the results from TA2, etc.
+С Tech Age вам придется начинать все сначала. Вы можете создавать блоки TA2 только с элементами из TA1, для TA3 вам нужны результаты из TA2 и т.д.
 
-In TA2, the machines only run with drive axes.
+В TA2 станки работают только с механическим приводом.
 
-From TA3, the machines run on electricity and have a communication interface for remote control.
+Машины TA3 работают на электричестве и оснащены интерфейсом связи для дистанционного управления.
 
-TA4 adds more power sources, but also higher logistical challenges (power lines, item transport).
-
-
-
-## Changes from version 1.0
-
-From V1.0 (07/17/2021) the following has changed:
-
-- The algorithm for calculating the power distribution has changed. This makes energy storage systems more important. These compensate for fluctuations, which is important in larger networks with several generators.
-- For this reason TA2 got its own energy storage.
-- The battery blocks from TA3 also serve as energy storage. Their functionality has been adapted accordingly.
-- The TA4 storage system has been revised. The heat heat exchanger have been given a new number because the functionality has been moved from the lower to the middle block. If these were remotely controlled, the node number must be adapted. The generators no longer have their own menu, but are only switched on / off via the heat exchanger. The heat exchanger and generator must now be connected to the same network!
-- Several power grids can now be coupled via a TA4 transformer blocks.
-- A TA4 electricity meter block for sub-networks is also new.
-- At least one battery block or a storage system in each network
-
-
-### Tips on switching
-
-Many more blocks have received minor changes. It is therefore possible that machines or systems do not start up again immediately after the changeover. In the event of malfunctions, the following tips will help:
-
-- Switch machines off and on again
-- remove a power cable block and put it back in place
-- remove the block completely and put it back in place
+TA4 добавляет больше источников энергии, но и повышает логистические сложности (линии электропередач, транспортировка предметов).
 
 
 
-## Ores and Minerals
+## Изменения по сравнению с версией 1.0
 
-Techage adds some new items to the game:
+С версии 1.0 (07/17/2021) изменилось следующее:
 
-- Meridium - an alloy for the production of luminous tools in TA1
-- Usmium - an ore that is mined in TA2 and needed for TA3
-- Baborium - a metal that is needed for recipes in TA3
-- Petroleum - is needed in TA3
-- Bauxite - an aluminum ore that is needed in TA4 to produce aluminum
-- Basalt - arises when water and lave touch
+- Изменился алгоритм расчета распределения мощности. Это повышает важность систем хранения энергии. Они компенсируют колебания, что важно для больших сетей с несколькими генераторами.
+- По этой причине TA2 обзавелась собственным накопителем энергии.
+- Аккумуляторные блоки из TA3 также служат в качестве накопителей энергии. Их функциональность была соответствующим образом адаптирована.
+- Система хранения TA4 была пересмотрена. Теплообменник получил новый номер, поскольку его функциональность была перенесена с нижнего на средний блок. Если они управлялись дистанционно, номер узла должен быть адаптирован. Генераторы больше не имеют собственного меню, а включаются/выключаются только через теплообменник. Теплообменник и генератор теперь должны быть подключены к одной сети!
+- Несколько электросетей теперь могут быть соединены через трансформаторные блоки TA4.
+- Также появился блок счетчиков электроэнергии TA4 для подсетей.
+- Как минимум один блок аккумуляторов или система хранения в каждой сети
 
 
-### Meridium
+### Советы по обновлению
 
-Meridium is an alloy of steel and mesecons crystals. Meridium ingots can be made with the coal burner from steel and mesecons crystals. Meridium glows in the dark. Tools made of Meridium also light up and are therefore very helpful in underground mining.
+Многие другие блоки получили незначительные изменения. Поэтому возможно, что машины или системы не будут запускаться сразу после обновления версии. В случае неполадок помогут следующие советы:
+
+- выключите и снова включите машины
+- снимите блок силовых кабелей и установите его на место
+- полностью снимите блок и установите его на место
+
+
+
+## Руды и минералы
+
+Techage добавляет в игру несколько новых предметов:
+
+- Меридий - сплав для производства светящихся инструментов в TA1
+- Усмий - руда, которая добывается в TA2 и необходима для TA3
+- Баборий - металл, необходимый для рецептов в TA3
+- Нефть - необходима в TA3
+- Бокситы - алюминиевая руда, которая необходима в TA4 для производства алюминия
+- Базальт - возникает при соприкосновении воды и лавы
+
+
+### Меридий
+
+Меридий - это сплав стали и кристаллов месе. Слитки меридия можно изготовить с помощью печи на древесном угле из стали и кристаллов месе. Меридий светится в темноте. Инструменты из меридия также светятся и поэтому очень полезны при подземной добыче.
 
 [meridium|image]
 
 
-### Usmium
+### Усмий
 
-Usmium only occurs as nuggets and can only be obtained by washing gravel with the TA2/TA3 gravel washing system.
+Усмий встречается только в виде самородков и может быть получен только при промывке гравия с помощью системы промывки гравия TA2/TA3.
 
 [usmium|image]
 
 
-### Baborium
+### Баборий
 
-Barborium can only be obtained from underground mining. This substance can only be found at a depth of -250 to -340 meters.
-
-Baborium can only be melted in the TA3 Industrial Furnace.
+Барборий можно получить только при подземной добыче. Это вещество можно найти только на глубине от -250 до -340 метров.
+Бабориум можно переплавить только в промышленной печи TA3.
 
 
 [baborium|image]
 
 
-### Petroleum
+### Нефть
 
-Petroleum can only be found with the help of the Explorer and extracted with the help of appropriate TA3 machines. See TA3.
+Нефть можно найти только с помощью Нефтяного Сонара и добыть с помощью соответствующих машин TA3. См. TA3.
 
 [oil|image]
 
 
-### Bauxite
+### Боксит
 
-Bauxite is only extracted in underground mining. Bauxite is only found in stone at a height between -50 and -500 meters.
-It is required for the production of aluminum, which is mainly used in TA4.
+Боксит можно добыть только в подземной шахте. Боксит можно найти только среди камня на высоте от -50 до -500 метров.
+Он необходим для производства алюминия, который в основном используется в TA4.
 
 [bauxite|image]
 
 
-### Basalt
+### Базальт
 
-Basalt is only created when lava and water come together.
-The best thing to do is to set up a system where a lava and a water source flow together.
-Basalt is formed where both liquids meet.
-You can build an automated basalt generator with the Sign Bot.
+Базальт образуется только при соединении лавы и воды.
+Лучше всего создать систему, в которой лава и вода будут течь вместе.
+Базальт образуется там, где встречаются обе жидкости.
+Вы можете создать автоматический генератор базальта с помощью Sign Bot или Карьера.
 
 [basalt|image]
 
 
-## History
+## История
 
-- 28.09.2019: Solar system added
-- 05.10.2019: Data on the solar system and description of the inverter and the power terminal changed
-- 18.11.2019: Chapter for ores, reactor, aluminum, silo, bauxite, furnace heating, gravel washing system added
-- 22.02.2020: corrections and chapters on the update
-- 29.02.2020: ICTA controller added and further corrections
-- 14.03.2020 Lua controller added and further corrections
-- 22.03.2020 More TA4 blocks added
-
+- 28.09.2019: Добавлена солнечная электростанция
+- 05.10.2019: Изменены данные о солнечной электростанции, описание инвертора и силового терминала
+- 18.11.2019: Добавлена глава для руд, реактора, алюминия, силоса, бокситов, нагревателя печи, системы промывки гравия
+- 22.02.2020: Исправления и добавлены главы по обновлению
+- 29.02.2020: Добавлен контроллер ICTA и дальнейшие исправления
+- 14.03.2020: Добавлен Lua-контроллер и внесены дополнительные исправления
+- 22.03.2020: Добавлено больше блоков TA4
