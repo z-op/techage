@@ -1,227 +1,209 @@
-# TA4 Lua Controller
+# Контроллер TA4 Lua
 
-![Lua Controller](https://github.com/joe7575/techage/blob/master/textures/techage_lua_controller_inventory.png)
+![TA4 Lua Controller](https://github.com/joe7575/techage/blob/master/textures/techage_lua_controller_inventory.png)
 
-The TA4 Lua Controller is a small computer, programmable in Lua to control your machinery.
-In contrast to the ICTA Controller this controller allows to implement larger and more complex programs.
+Контроллер TA4 Lua — это небольшой компьютер, программируемый на языке Lua для управления вашими механизмами.  
+В отличие от контроллера ICTA, этот контроллер позволяет реализовывать более крупные и сложные программы.  
+Однако для написания скриптов на Lua требуются базовые знания языка программирования Lua.
 
-But to write Lua scripts, some knowledge with the programming language Lua is required. 
+Minetest использует Lua 5.1. Справочная документация по Lua 5.1 доступна [здесь](https://www.lua.org/manual/5.1/).  
+Книга [«Programming in Lua» (первое издание)](https://www.lua.org/pil/contents.html) также является отличным источником для изучения Lua.
 
-Minetest uses Lua 5.1. The reference document for Lua 5.1 is [here](https://www.lua.org/manual/5.1/). The  book [Programming in Lua (first edition)](https://www.lua.org/pil/contents.html) is also a perfect source for learning Lua.
-
-This TA4 Lua Controller manual is also available as PDF:
-
+Руководство по контроллеру TA4 Lua также доступно в формате PDF:  
 https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.pdf
 
+## Содержание
 
+- [Контроллер TA4 Lua](#контроллер-ta4-lua)
+- [Содержание](#содержание)
+- [Блоки TA4 Lua Controller](#блоки-ta4-lua-controller)
+  - [TA4 Lua Controller](#ta4-lua-controller)
+  - [TA4 Lua Server](#ta4-lua-server)
+  - [Терминал TA4 Lua Controller](#терминал-ta4-lua-controller)
+  - [TA4 Sensor Chest](#ta4-sensor-chest)
+- [Функции и среда выполнения Lua](#функции-и-среда-выполнения-lua)
+  - [Функции и ограничения Lua](#функции-и-ограничения-lua)
+  - [Массивы, хранилища и множества](#массивы-хранилища-и-множества)
+    - [Массивы](#массивы)
+    - [Хранилища](#хранилища)
+    - [Множества](#множества)
+- [Инициализация, циклические задачи и события](#инициализация-циклические-задачи-и-события)
+  - [Инициализация](#инициализация)
+  - [Циклическая задача](#циклическая-задача)
+  - [События](#события)
+- [Среда выполнения на основе кредитов](#среда-выполнения-на-основе-кредитов)
+- [Функции контроллера Lua](#функции-контроллера-lua)
+  - [Локальные функции контроллера](#локальные-функции-контроллера)
+  - [Пример ввода](#пример-ввода)
+  - [Функции команд Techage](#функции-команд-techage)
+  - [Функции сервера и терминала](#функции-сервера-и-терминала)
+  - [Обмен сообщениями между контроллерами Lua](#обмен-сообщениями-между-контроллерами-lua)
+  - [Дополнительные функции](#дополнительные-функции)
+- [Примеры скриптов](#примеры-скриптов)
+  - [Простой счётчик](#простой-счётчик)
+  - [Hello World](#hello-world)
+  - [Цикл for с range(from, to)](#цикл-for-с-rangefrom-to)
+  - [Мониторинг сундука и печи](#мониторинг-сундука-и-печи)
+  - [Простой калькулятор](#простой-калькулятор)
+  - [Приветственный дисплей](#приветственный-дисплей)
+  - [Sensor Chest](#sensor-chest)
+  - [Чтение кнопки «TA4 4x Button»](#чтение-кнопки-ta4-4x-button)
+  - [Электронная почта](#электронная-почта)
 
-## Table of Contents
-
-- [TA4 Lua Controller](#ta4-lua-controller)
-  - [Table of Contents](#table-of-contents)
-  - [TA4 Lua Controller Blocks](#ta4-lua-controller-blocks)
-    - [TA4 Lua Controller](#ta4-lua-controller-1)
-    - [TA4 Lua Server](#ta4-lua-server)
-    - [TA4 Lua Controller Terminal](#ta4-lua-controller-terminal)
-    - [TA4 Sensor Chest](#ta4-sensor-chest)
-  - [Lua Functions and Environment](#lua-functions-and-environment)
-    - [Lua Functions and Limitations](#lua-functions-and-limitations)
-    - [Arrays, Stores, and Sets](#arrays-stores-and-sets)
-      - [Arrays](#arrays)
-      - [Stores](#stores)
-      - [Sets](#sets)
-    - [Initialization, Cyclic Task, and Events](#initialization-cyclic-task-and-events)
-      - [Initialization](#initialization)
-      - [Cyclic Task](#cyclic-task)
-      - [Events](#events)
-      - [Credit-based Runtime Environment](#credit-based-runtime-environment)
-  - [Lua Controller Functions](#lua-controller-functions)
-    - [Controller local Functions](#controller-local-functions)
-      - [Input Example](#input-example)
-    - [Techage Command Functions](#techage-command-functions)
-    - [Server and Terminal Functions](#server-and-terminal-functions)
-    - [Communication between Lua Controllers](#communication-between-lua-controllers)
-    - [Further Functions](#further-functions)
-  - [Example Scripts](#example-scripts)
-    - [Simple Counter](#simple-counter)
-    - [Hello World](#hello-world)
-    - [For Loop with range(from, to)](#for-loop-with-rangefrom-to)
-    - [Monitoring Chest \& Furnace](#monitoring-chest--furnace)
-    - [Simple Calculator](#simple-calculator)
-    - [Welcome Display](#welcome-display)
-    - [Sensor Chest](#sensor-chest)
-    - [Read the "TA4 4x Button"](#read-the-ta4-4x-button)
-    - [Emails](#emails)
-
-
-
-## TA4 Lua Controller Blocks
+## Блоки TA4 Lua Controller
 
 ### TA4 Lua Controller
 
-The controller block has a menu form with the following tabs:
+Блок контроллера имеет меню со следующими вкладками:
 
-- the `init` tab for the initialization code block
-- the `func` tab for the Lua functions
-- the `loop` tab for the main code block
-- the `outp` tab for debugging outputs via `$print()`
-- the `notes` tab for your code snippets or other notes (like a clipboard)
-- the `help` tab with information to the available functions
+- вкладка `init` — для блока кода инициализации  
+- вкладка `func` — для определения пользовательских функций на Lua  
+- вкладка `loop` — для основного блока кода  
+- вкладка `outp` — для вывода отладочной информации через `$print()`  
+- вкладка `notes` — для хранения фрагментов кода или заметок (аналог буфера обмена)  
+- вкладка `help` — справочная информация о доступных функциях  
 
-The controller will be restarted (init() is called) every time the Minetest server starts again.
-To store data non-volatile (to pass a server restart), the "TA4 Lua Server" block has to be used.
+Контроллер перезапускается (вызывается `init()`) каждый раз при перезапуске сервера Minetest.  
+Для сохранения данных после перезапуска сервера необходимо использовать блок **«TA4 Lua Server»**.
 
 ### TA4 Lua Server
 
-The Server block is used to store data from Lua Controllers nonvolatile. It can also be used for communication purposes between several Lua Controllers.
-Only configured players have access to the server. Therefore, the server has a menu to enter player names. 
+Блок сервера используется для постоянного (энергонезависимого) хранения данных от контроллеров Lua.  
+Также он может использоваться для обмена данными между несколькими контроллерами Lua.  
+Доступ к серверу имеют только указанные игроки. Для этого в меню сервера можно ввести список имён игроков.  
+О специальных функциях сервера см. раздел «Функции сервера и терминала».
 
-For special Server functions, see "Server and Terminal Functions"
+### Терминал TA4 Lua Controller
 
-### TA4 Lua Controller Terminal
+Терминал используется для отправки текстовых команд контроллеру.  
+В свою очередь, контроллер может отправлять текстовые строки терминалу.  
+Терминал имеет встроенную справку по внутренним командам. Поддерживаемые команды:
 
-The Terminal is used to send command strings to the controller.
-In turn, the controller can send text strings to the terminal.
-The Terminal has a help system for internal commands. Its supports the following commands:
+- `clear` — очистить экран  
+- `help` — вывести это сообщение  
+- `pub` — перевести терминал в публичный режим (любой может вводить команды)  
+- `priv` — перевести терминал в приватный режим (только владелец может вводить команды)  
+- `send <num> on/off` — отправить событие включения/выключения, например, лампе (для тестирования)  
+- `msg <num> <text>` — отправить текстовое сообщение другому контроллеру (для тестирования)  
 
-- `clear` = clear the screen
-- `help`  = output this message
-- `pub`   = switch terminal to public use (everybody can enter commands)
-- `priv`  = switch terminal to private use (only the owner can enter commands)
-- `send <num> on/off`  = send on/off event to e. g. lamps (for testing purposes)
-- `msg <num> <text>`   = send a text message to another Controller (for testing purposes)
-
-For special Terminal functions for the TA4 Lua Controller, see  "Server and Terminal Functions"
+О специальных функциях терминала для контроллера TA4 Lua см. раздел «Функции сервера и терминала».
 
 ### TA4 Sensor Chest
 
-tbd.
+*Подлежит уточнению.*
 
-## Lua Functions and Environment
+## Функции и среда выполнения Lua
 
-### Lua Functions and Limitations
+### Функции и ограничения Lua
 
-The controller uses a subset of the language Lua, called SaferLua.  It allows the safe and secure execution of Lua scripts, but has the following limitations:
+Контроллер использует подмножество языка Lua под названием **SaferLua**. Оно обеспечивает безопасное выполнение скриптов, но имеет следующие ограничения:
 
-- limited code length
-- limited execution time
-- limited memory use
-- limited possibilities to call functions
+- ограниченная длина кода  
+- ограниченное время выполнения  
+- ограниченное использование памяти  
+- ограниченные возможности вызова функций  
 
-SaferLua follows the standard Lua syntax with the following restrictions:
+SaferLua следует стандартному синтаксису Lua со следующими ограничениями:
 
-- no `while` or `repeat` loops (to prevent endless loops)
-- no table constructor {..}, see "Arrays, Stores, and Sets" for comfortable alternatives
-- limited runtime environment
+- запрещены циклы `while` и `repeat` (для предотвращения бесконечных циклов)  
+- запрещён конструктор таблиц `{..}`; вместо него см. раздел «Массивы, хранилища и множества»  
+- ограниченная среда выполнения  
 
-SaferLua directly supports the following standard functions:
+SaferLua напрямую поддерживает следующие стандартные функции:
 
-- math.floor
-- math.abs
-- math.max
-- math.min
-- math.random
-- tonumber
-- tostring
-- unpack
-- type
-- string.byte
-- string.char
-- string.find
-- string.format
-- string.gmatch
-- string.gsub
-- string.len
-- string.lower
-- string.match
-- string.rep
-- string.sub
-- string.upper
-- string.split (result is an Array)
-- string.split2 (result are multiple returns like the Lua function unpack)
-- string.trim
+- `math.floor`, `math.abs`, `math.max`, `math.min`, `math.random`  
+- `tonumber`, `tostring`, `unpack`, `type`  
+- `string.byte`, `string.char`, `string.find`, `string.format`, `string.gmatch`, `string.gsub`, `string.len`, `string.lower`, `string.match`, `string.rep`, `string.sub`, `string.upper`  
+- `string.split` (результат — Array)  
+- `string.split2` (результат — несколько значений, как у `unpack`)  
+- `string.trim`  
 
-For own function definitions, the menu tab 'func' can be used. Here you write your functions like:
+Для определения собственных функций используйте вкладку меню `func`. Пример:
 
-```lua
+```
 function foo(a, b)
     return a + b
 end
 ```
 
-Each SaferLua program has access to the following system variables:
+Не забудьте добавить символ `$` перед именем функции при её вызове в основном коде:  
+`$foo(1, 2)`
 
-- ticks - a counter which increments by one each call of `loop()`
-- elapsed - the amount of seconds since the last call of `loop()`
-- event - a boolean flag (true/false) to signal the execution of `loop()` based on an occurred event
+Каждая программа SaferLua имеет доступ к следующим системным переменным:
 
-### Arrays, Stores, and Sets
+- `ticks` — счётчик, увеличивающийся на 1 при каждом вызове `loop()`  
+- `elapsed` — количество секунд, прошедших с последнего вызова `loop()`  
+- `event` — флаг (true/false), сигнализирующий, что `loop()` был вызван в ответ на событие  
 
-It is not possible to easily control the memory usage of a Lua table at runtime. Therefore, Lua tables can't be used for SaferLua programs. Because of this, there are the following alternatives, which are secure shells over the Lua table type:
+### Массивы, хранилища и множества
 
-#### Arrays
+Невозможно легко контролировать использование памяти таблицами Lua во время выполнения. Поэтому в SaferLua нельзя использовать обычные таблицы Lua. Вместо них предусмотрены следующие безопасные обёртки:
 
-_Arrays_ are lists of elements, which can be addressed by means of an index. An index must be an integer number. The first element in an _array_ has the index value 1. _Arrays_ have the following methods:
+#### Массивы
 
-- add(value) - add a new element at the end of the array
-- set(idx, value) - overwrite an existing array element on index `idx`
-- get(idx)  - return the value of the array element on index `idx`
-- remove(idx)  - remove the array element on index `idx`
-- insert(idx, val)  - insert a new element at index `idx` (the array becomes one element longer)
-- size()  - return the number of _array_ elements
-- memsize()  - return the needed _array_ memory space
-- next()  - `for` loop iterator function, returning `idx,val`
-- sort(reverse) - sort the _array_ elements in place. If _reverse_ is `true`, sort in descending order.
+Массивы — это списки элементов, к которым можно обращаться по индексу. Индекс должен быть целым числом. Первый элемент имеет индекс 1.  
 
+Методы массива:
 
-Example:
+- `add(value)` — добавить новый элемент в конец массива  
+- `set(idx, value)` — заменить существующий элемент по индексу `idx`  
+- `get(idx)` — получить значение элемента по индексу `idx`  
+- `remove(idx)` — удалить элемент по индексу `idx`  
+- `insert(idx, val)` — вставить новый элемент по индексу `idx` (массив удлиняется)  
+- `size()` — вернуть количество элементов  
+- `memsize()` — вернуть объём занимаемой памяти  
+- `next()` — итератор для цикла `for`, возвращает `idx,val`  
+- `sort(reverse)` — сортировать элементы на месте; если `reverse == true`, сортировка по убыванию  
 
-```lua
+Пример:
+
+```
 a = Array(1,2,3,4)     --> {1,2,3,4}
 a.add(6)               --> {1,2,3,4,6}
 a.set(2, 8)            --> {1,8,3,4,6}
-a.get(2)               --> function returns 8
+a.get(2)               --> функция возвращает 8
 a.insert(5,7)          --> {1,8,3,4,7,6}
 a.remove(3)            --> {1,8,4,7,6}
 a.insert(1, "hello")   --> {"hello",1,8,4,7,6}
-a.size()               --> function returns 6
-a.memsize()            --> function returns 10
+a.size()               --> функция возвращает 6
+a.memsize()            --> функция возвращает 10
 for idx,val in a.next() do
     ...
 end
 ```
 
-#### Stores
+#### Хранилища
 
-Unlike _arrays_, which are indexed by a range of numbers, _stores_ are indexed by keys, which can be a string or a number. The main operations on a _store_ are storing a value with some key and extracting the value given the key.
-The _store_ has the following methods:
+В отличие от массивов, хранилища индексируются ключами (строками или числами). Основные операции — сохранение значения по ключу и извлечение значения по ключу.
 
-- set(key, val) - store/overwrite the value `val` behind the keyword `key`
-- get(key) - read the value behind `key`      
-- del(key) - delete a value
-- size() - return the number of _store_ elements
-- memsize() - return the needed _store_ memory space
-- next()    - `for` loop iterator function, returning `key,val`
-- keys(order) - return an _array_ with the keys. If _order_ is `"up"` or `"down"`, return the keys as sorted _array_, in order of the _store_ values.
+Методы хранилища:
 
-Example:
+- `set(key, val)` — сохранить/перезаписать значение `val` по ключу `key`  
+- `get(key)` — прочитать значение по ключу `key`  
+- `del(key)` — удалить значение по ключу  
+- `size()` — количество элементов  
+- `memsize()` — объём памяти  
+- `next()` — итератор для цикла `for`, возвращает `key,val`  
+- `keys(order)` — вернуть массив ключей; если `order == "up"` или `"down"`, ключи сортируются по значениям  
 
-```lua
+Пример:
+
+```
 s = Store("a", 4, "b", 5)  --> {a = 4, b = 5}
 s.set("val", 12)           --> {a = 4, b = 5, val = 12}
-s.get("val")               --> returns 12
+s.get("val")               --> возвращает 12
 s.set(0, "hello")          --> {a = 4, b = 5, val = 12, [0] = "hello"}
 s.del("val")               --> {a = 4, b = 5, [0] = "hello"}
-s.size()                   --> function returns 3
-s.memsize()                --> function returns 9
+s.size()                   --> функция возвращает 3
+s.memsize()                --> функция возвращает 9
 for key,val in s.next() do
     ...
 end
 ```
 
-Keys sort example:
+Пример сортировки ключей:
 
-```lua
+```
 s = Store()            --> {}
 s.set("Joe", 800)      --> {Joe=800}
 s.set("Susi", 1000)    --> {Joe=800, Susi=1000}
@@ -231,276 +213,266 @@ s.keys("down")         --> {Susi, Joe, Tom}
 s.keys("up")           --> {Tom, Joe, Susi}
 ```
 
-#### Sets
+#### Множества
 
-A _set_ is an unordered collection with no duplicate elements. The basic use of a _set_ is to test if an element is in the _set_, e.g. if a player name is stored in the _set_.
-The _set_ has the following methods:
+Множество — неупорядоченная коллекция без дубликатов. Основное назначение — проверка наличия элемента (например, имени игрока).
 
-- add(val)  - add a value to the _set_
-- del(val) - delete a value from the _set_
-- has(val) - test if value is stored in the _set_
-- size()  - return the number of _set_ elements
-- memsize() - return the needed _set_ memory space
-- next()    - `for` loop iterator function, returning `idx,val`
+Методы множества:
 
-Example:
+- `add(val)` — добавить значение  
+- `del(val)` — удалить значение  
+- `has(val)` — проверить наличие значения  
+- `size()` — количество элементов  
+- `memsize()` — объём памяти  
+- `next()` — итератор для цикла `for`, возвращает `idx,val`  
 
-```lua
+Пример:
+
+```
 s = Set("Tom", "Lucy")     --> {Tom = true, Lucy = true}
 s.add("Susi")              --> {Tom = true, Lucy = true, Susi = true}
 s.del("Tom")               --> {Lucy = true, Susi = true}
-s.has("Susi")              --> function returns `true`
-s.has("Mike")              --> function returns `false`
-s.size()                   --> function returns 2
-s.memsize()                --> function returns 8
+s.has("Susi")              --> функция возвращает `true`
+s.has("Mike")              --> функция возвращает `false`
+s.size()                   --> функция возвращает 2
+s.memsize()                --> функция возвращает 8
 for idx,val in s.next() do
     ...
 end
 ```
 
-All three types of data structures allow nested elements, e.g. you can store a _set_ in a _store_ or an _array_ and so on. But note that the overall size over all data structures can't exceed the predefined limit. This value is configurable for the server admin. The default value is 1000.
-The configured limit can be determined via `memsize()`:
+Все три типа структур данных допускают вложенные элементы (например, множество внутри хранилища), но общий объём всех структур не может превышать заданного лимита. Значение лимита настраивается администратором сервера; по умолчанию — 1000.  
 
-```lua
-memsize()  --> function returns 1000  (example)
+Текущий лимит можно узнать с помощью `memsize()`:
+
+```
+memsize()  --> функция возвращает 1000 (пример)
 ```
 
-### Initialization, Cyclic Task, and Events
+## Инициализация, циклические задачи и события
 
-The TA4 Lua Controller distinguishes between the initialization phase (just after the controller was started) and the continuous operational phase, in which the normal code is executed. 
+Контроллер TA4 Lua различает фазу инициализации (сразу после запуска) и фазу нормальной работы.
 
-#### Initialization
+### Инициализация
 
-During the initialization phase the function `init()` is executed once. The `init()` function is typically used to initialize variables, clean the display, or reset other blocks:
+Функция `init()` выполняется один раз при запуске контроллера. Обычно используется для инициализации переменных, очистки дисплея или сброса других блоков:
 
-```lua
--- initialize variables
+```
+-- инициализация переменных
 counter = 1
 table = Store()
 player_name = "unknown"
 
-# reset blocks
-$clear_screen("123")      -- "123" is the number-string of the display
-$send_cmnd("2345", "off")  -- turn off the blocks with the number "2345"
+-- сброс блоков
+$clear_screen("123")      -- "123" — номер дисплея
+$send_cmnd("2345", "off") -- выключить блоки с номером "2345"
 ```
 
+### Циклическая задача
 
-#### Cyclic Task
+Во время нормальной работы функция `loop()` вызывается циклически.  
+Сюда помещается код, который должен выполняться повторно.  
 
-During the continuous operational phase the `loop()` function is cyclically called.
-Code witch should be executed cyclically has to be placed here.
-The cycle frequency is per default once per second but can be changed via:
+Частота вызова по умолчанию — раз в секунду, но её можно изменить:
 
-```lua
-$loopcycle(0)   -- no loop cyle any more
-$loopcycle(1)   -- call the loop function every second
-$loopcycle(10)  -- call the loop function every 10 seconds
+```
+$loopcycle(0)   -- отключить цикл
+$loopcycle(1)   -- вызывать loop() каждую секунду
+$loopcycle(10)  -- вызывать loop() каждые 10 секунд
 ```
 
-The provided number must be an integer value.
-The cycle frequency can be changed in the `init()` function, but also in the `loop()` function.
+Указываемое число должно быть целым. Частоту можно менять как в `init()`, так и в `loop()`.
 
-#### Events
+### События
 
-To be able to react directly on received commands, the TA4 Lua Controller supports events.
-Events are usually turned off, but can be activated with the function `events()`:
+Для немедленной реакции на полученные команды контроллер поддерживает события.  
+События по умолчанию отключены, но их можно включить функцией `events()`:
 
-```lua
-$events(true)    -- enable events
-$events(false)   -- disable events
+```
+$events(true)   -- включить события
+$events(false)  -- выключить события
 ```
 
-If an event occurs (a command was received from another block), the `loop()` is executed (in addition to the normal loop cycle). In this case the system variable 'event' is set:
+Если происходит событие (приходит команда от другого блока), вызывается `loop()` (в дополнение к обычному циклу). При этом устанавливается системная переменная `event`:
 
-```lua
+```
 if event then
-    -- event has occurred
-    if $get_input("3456") == "on" then  -- check input from block "3456"
-        -- do some action...
+    -- произошло событие
+    if $get_input("3456") == "on" then  -- проверка входа от блока "3456"
+        -- выполнить действие...
     end
 end
 ```
 
-The first occurred event will directly be processed, further events may be delayed. The TA4 Lua Controller allows a maximum of one event every 100 ms.
+Первое событие обрабатывается немедленно, последующие могут быть отложены.  
+Контроллер допускает максимум одно событие каждые 100 мс.
 
-#### Credit-based Runtime Environment
+## Среда выполнения на основе кредитов
 
-The TA4 Lua Controller uses a credit-based runtime environment. Each Lua instruction consumes a certain amount of credits. The credits are refilled every loop cyle (normally every second) with an amount of 10 credits. The maximum amount of credits is limited to 100. If the credits are used up, the Lua program is paused until the credits are refilled. The credits are used for all Lua instructions, including the execution of the `events` and `loops` functions.
+Контроллер TA4 Lua использует **кредитную модель выполнения**.  
+Каждая инструкция Lua расходует определённое количество кредитов.  
+Кредиты пополняются каждый цикл (обычно раз в секунду) на 10 единиц.  
+Максимальный запас — 100 кредитов. Если кредиты исчерпаны, выполнение приостанавливается до пополнения.  
 
-The former used time-based runtime environment is still available, but only used to prevent endless loops.
+Ранее использовавшаяся временная модель всё ещё активна, но применяется только для защиты от бесконечных циклов.
 
-## Lua Controller Functions
+## Функции контроллера Lua
 
-In addition to Lua standard function the Lua Controller provides the following functions:
+Помимо стандартных функций Lua, контроллер предоставляет следующие функции:
 
-### Controller local Functions
+### Локальные функции контроллера
 
-- `$print(text)` - Output a text string on the 'outp' tab of the controller menu. 
-  E.g.: `$print("Hello "..name)`
-- `$loopcycle(seconds)` - This function allows to change the call frequency of the controller loop() function, witch is per default one second. For more info, see "Cyclic Task"
-- `$events(bool)` - Enable/disable event handling. For more info, see "Events"
-- `$get_ms_time()` - Returns the time with millisecond precision
-- `$get_gametime()` - Returns the time, in seconds, since the world was created
-- `$time_as_str()` - Read the time of day (ingame) as text string in 24h format, like "18:45"
-- `$time_as_num()` - Read the time of day (ingame) as integer number in 24h format, like 1845
-- `$get_input(num)` - Read an input value provided by an external block with the given number _num_. The block has to be configured with the number of the controller to be able to send status messages (on/off commands) to the controller.  _num_ is the number (data type string) of the remote block, like "1234".
+- `$print(text)` — вывод текста на вкладку `outp` меню контроллера  
+  Пример: `$print("Привет, "..name)`
+- `$loopcycle(seconds)` — изменить частоту вызова `loop()` (по умолчанию — 1 сек)  
+- `$events(bool)` — включить/выключить обработку событий  
+- `$get_ms_time()` — вернуть текущее время с точностью до миллисекунд  
+- `$get_gametime()` — вернуть время в секундах с момента создания мира  
+- `$time_as_str()` — вернуть игровое время суток в виде строки (24-часовой формат, например "18:45")  
+- `$time_as_num()` — вернуть игровое время суток в виде целого числа (например, 1845)  
+- `$get_input(num)` — прочитать входное значение от внешнего блока с номером `num` (тип строки, например "1234"). Блок должен быть настроен на отправку команд (`on`/`off`) этому контроллеру.
 
-#### Input Example
-- A Player Detector with number "456" is configured to send on/off commands to the TA4 Lua Controller  with number "345".
-- The TA4 Lua Controller will receive these commands as input value.
-- The program on the SaferLua Controller can always read the last input value from the Player Detector with number "456" by means of:
+### Пример ввода
 
-`sts = $get_input("456")`
+Детектор игроков с номером "456" настроен на отправку команд `on`/`off` контроллеру TA4 Lua с номером "345".  
+Контроллер получает эти команды как входные значения.  
+Программа может всегда читать последнее значение от детектора:
 
+```
+sts = $get_input("456")
+```
 
-### Techage Command Functions
+### Функции команд Techage
 
-With the `$send_cmnd(num, ident, add_data)` function, you can send commands to and retrieve data from another block with the given number _num_.
-The possible commands can be classified in two groups: Commands for reading data and commands for triggering an action.
-Please note, that this is not a technical distinction, only a logical.
+Функция `$send_cmnd(num, ident, add_data)` позволяет отправлять команды и получать данные от другого блока с номером `num`.
 
-**Reading data**
+Команды делятся на две логические группы: **чтение данных** и **выполнение действия**.
 
-- _ident_ specifies the data to be read. 
--  _add_data_ is for additional data and normally not needed. 
--  The result is block dependent (see table below)
+#### Чтение данных
 
+| ident | возвращаемые данные | комментарий |
+|-------|---------------------|-------------|
+| `"state"` | `"running"`, `"stopped"`, `"blocked"`, `"standby"`, `"fault"`, `"unloaded"` | состояние машины Techage |
+| `"state"` | `"red"`, `"amber"`, `"green"`, `"off"` | состояние сигнальной вышки |
+| `"state"` | `"empty"`, `"loaded"`, `"full"` | состояние сундука или Sensor Chest |
+| `"state"` | `"on"`, `"off"` | состояние кнопки TA4 |
+| `"fuel"` | число | уровень топлива (0–99) |
+| `"depth"` | число | текущая глубина карьера (1–80) |
+| `"load"` | число | уровень заряда аккумулятора или теплонакопителя (0–100%) |
+| `"load"` | два числа | для резервуара/силоса: процент и абсолютное значение |
+| `"load"` | число | уровень заряда сети от TA3 Power Terminal (0–100%) |
+| `"delivered"` | число | выдаваемая мощность генератора (в ку); для потребителей — отрицательное значение |
+| `"flowrate"` | число | общий поток жидкости (только для насосов TA4) |
+| `"action"` | имя_игрока, строка_действия | только для Sensor Chest |
+| `"stacks"` | Array из Stores | содержимое инвентаря (до 4 слотов) |
+| `"count"` | число | счётчик предметов в TA4 Item Detector |
+| `"count"` | число | общее количество предметов в TA4 (8×2000) сундуке; `add_data` — номер слота (1–8) |
+| `"count"` | число | количество вытолкнутых предметов (режим ограничителя потока) |
+| `"count"` | число | количество перекачанных единиц жидкости (режим ограничителя потока) |
+| `"itemstring"` | строка | техническое имя предмета в указанном слоте сундука |
+| `"output"` | строка | результат рецепта печи (например, `"default:glass"`); `"unknown"` — если рецепт не активен |
+| `"input"` | список | чтение рецепта из TA4 Recipe Block по индексу |
+| `"name"` | строка | имя игрока от детектора или кнопки |
+| `"time"` | число | время нажатия кнопки в тиках (1 тик = 100 мс) |
+| `"consumption"` | число | потреблённая энергия (TA4 Electric Meter) |
+| `"countdown"` | число | обратный отсчёт энергии (TA4 Electric Meter) |
+| `"current"` | число | сила тока (TA4 Electric Meter) |
 
-| ident         | returned data                                                | comment                                                      |
-| ------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| "state"       | one of: "running", "stopped", "blocked", "standby", "fault", or "unloaded" | Techage machine state, used by many machines                 |
-| "state"       | one of: "red", "amber", "green", "off"                       | Signal Tower state                                           |
-| "state"       | one of: "empty", "loaded", "full"                            | State of a chest or Sensor Chest                             |
-| "state"       | one of: "on", "off"                                          | State of a TA4 Button                                        |
-| "fuel"        | number                                                       | fuel value of a fuel consuming block                         |
-| "depth"       | number                                                       | Read the current depth value of a quarry block (1..80)       |
-| "load"        | number                                                       | Read the load value in percent  (0..100) of a accu, or battery block. |
-| "load"        | number                                                       | Read the load value in percent  (0..100) of a tank or silo. <br />Silo and tank return two values: <br />The percentage value and the absolute value in units.<br /> Example: percent, absolute = $send_cmnd("223", "load") |
-| "load"        | number                                                       | Read the grid storage amount (state of charge) in percent  (0..100) from a TA3 Power Terminal. |
-| "delivered"   | number                                                       | Read the current delivered power value of a generator block. A power consuming block (accu) provides a negative value |
-| "flowrate"    | Total flow rate in liquid units                              | Only for TA4 Pumps                                           |
-| "action"      | player-name, action-string                                   | Only for Sensor Chests                                       |
-| "stacks"      | Array with up to 4 Stores with the inventory content (see example) | Only for Sensor Chests                                       |
-| "count"       | number                                                       | Read the item counter of the TA4 Item Detector block         |
-| "count"       | number of items                                              | Read the total amount of TA4 chest items. An optional  number as `add_data` is used to address only one inventory slot (1..8, from left to right). |
-| "count"       | number of items                                              | Read the number of pushed items for a TA4 Pusher in "flow limiter" mode |
-| "count"       | number of units                                              | Read the number of pumped liquid units for a TA4 Pump in "flow limiter" mode |
-| "itemstring"  | item string of the given slot                                | Specific command for the TA4 8x2000 Chest to read the item type (technical name) of one chest slot, specified via `add_data` (1..8).<br />Example: s = $send_cmnd("223", "itemstring", 1) |
-| "output"      | recipe output string, <br />e.g.: "default:glass"            | Only for the Industrial Furnace. If no recipe is active, the command returns "unknown" |
-| "input"       | \<index>                                                     | Read a recipe from the TA4 Recipe Block. `<index>` is the number of the recipe. The block return a list of recipe items. |
-| "name"        | \<player name>                                               | Player name of the TA3/TA4 Player Detector or TA4 Button     |
-| "time"        | number                                                       | Time in system ticks (norm. 100 ms) when the TA4 Button is clicked |
-| "consumption" | number                                                       | TA4 Electric Meter: Amount of electrical energy passed through |
-| "countdown"   | number                                                       | TA4 Electric Meter: Countdown value for the amount of electrical energy passed through |
-| "current"     | number                                                       | TA4 Electric Meter: Current flow of electricity (current)    |
+#### Выполнение действия
 
+| команда | данные | комментарий |
+|--------|--------|-------------|
+| `"on"`, `"off"` | nil | вкл/выкл блок (машина, лампа и т.д.) |
+| `"red"`, `"amber"`, `"green"`, `"off"` | nil | установить цвет вышки или светофора |
+| `"red"`, `"amber"`, `"green"`, `"off"` | номер лампы (1–4) | для TA4 2x/4x Signal Lamp |
+| `"port"` | строка `<цвет>=on/off` | вкл/выкл фильтр распределителя (цвета: red, green, blue, yellow) |
+| `"config"` | `"<слот> <список предметов>"` | настройка фильтра распределителя |
+| `"text"` | строка | текст для меню Sensor Chest |
+| `"reset"` | nil | сброс счётчиков TA4 Item Detector |
+| `"countdown"` | число | установить обратный отсчёт в TA4 Item Detector |
+| `"limit"` | число | установить лимит для толкателя или насоса (режим ограничителя потока); 0 — отключить режим |
+| `"config"` | строка предмета | настроить толкатель (например, `wool:blue`) |
+| `"exc"` | номер слота | TA3 Door Controller II: обменять блок в мире с блоком из инвентаря |
+| `"to1"` | номер слота | TA3 Door Controller II: переместить блок из мира в инвентарь (состояние 2) |
+| `"to2"` | номер слота | TA3 Door Controller II: переместить блок из инвентаря в мир (состояние 1) |
+| `"get"` | номер слота | TA3 Door Controller II: получить состояние позиции (1 или 2) |
+| `"a2b"` | nil | TA4 Move Controller: переместить блоки из позиции A в B |
+| `"b2a"` | nil | TA4 Move Controller: переместить блоки из позиции B в A |
+| `"move"` | nil | TA4 Move Controller: переместить блоки в противоположную позицию |
+| `"move2"` | x,y,z | TA4 Move Controller: переместить блоки на заданное смещение (-100…100) |
+| `"moveto"` | x,y,z | TA4 Move Controller / II: переместить блоки в абсолютные координаты |
+| `"reset"` | nil | TA4 Move Controller / II: сброс в начальную позицию |
+| `"left"` | nil | TA4 Turn Controller: повернуть блоки влево |
+| `"right"` | nil | TA4 Turn Controller: повернуть блоки вправо |
+| `"uturn"` | nil | TA4 Turn Controller: разворот на 180° |
+| `"recipe"` | список предметов | установить рецепт для TA4 Autocrafter (пустые поля допустимы только в конце) |
+| `"recipe"` | `<номер>.<индекс>` | загрузить рецепт из TA4 Recipe Block |
+| `"goto"` | `<слот>` | запустить TA4 Sequencer с указанного слота |
+| `"stop"` | nil | остановить TA4 Sequencer |
+| `"gain"` | громкость (0–1.0) | установить громкость звукового блока |
+| `"sound"` | индекс | выбрать звуковой сэмпл |
+| `"color"` | число (0–255) | установить цвет TechAge Color Lamp |
 
+### Функции сервера и терминала
 
-**Trigger an action**
+Сервер используется для постоянного хранения данных и обмена между контроллерами.
 
-- _num_ is the number of the remote block, like "1234"
-- _cmnd_ is the command
-- _data_ is additional data (see table below)
+- `$server_write(num, key, value)` — записать значение на сервер.  
+  `key` — строка, `value` — число, строка, булево, nil или структура данных (без вложенности).  
+  Пример: `$server_write("0123", "state", state)`
+- `$server_read(num, key)` — прочитать значение с сервера.  
+- `$get_term()` — прочитать текстовую команду от терминала  
+- `$put_term(num, text)` — отправить текст терминалу  
 
-| cmnd                             | data         | comment                                                      |
-| -------------------------------- | ------------ | ------------------------------------------------------------ |
-| "on", "off"                      | nil          | turn a node on/off (machine, lamp,...)                       |
-| "red, "amber", "green", "off"    | nil          | set Signal Tower or Traffic Light color                      |
-| "red, "amber", "green", "off" | lamp number (1..4) | Set the signal lamp color. Valid for "TA4 2x Signal Lamp" and "TA4 4x Signal Lamp" |
-| "port"                          | string<br />`<color>=on/off` | Enable/disable a Distributor filter slot..<br />Example: `"yellow=on"`<br />colors: red, green, blue, yellow |
-| "config" | "\<slot> \<item list>" | Configure a Distributor filter slot, like: "red default:dirt dye:blue" |
-| "text"                           | text string  | Text to be used for the Sensor Chest menu                    |
-| "reset"                          | nil          | Reset item and countdown counters of the TA4 Item Detector block |
-| "countdown" | number | Set countdown counter of the TA4 Item Detector block to the given value and<br />start countdown mode. |
-| "limit"                       | number | Configure a TA4 Pusher with the number of items that are allowed to be pushed ("flow limiter" mode)<br />limit = 0 turns off the "flow limiter" mode |
-| "limit" | number | Configure a TA4 Pump with the number of liquid units that are allowed to be pumped ("flow limiter" mode)<br />limit = 0 turns off the "flow limiter" mode |
-| "config"                         | item  string | Configure the TA4 pusher.<br />Example: `wool:blue`          |
-| "exchange" | inventory slot number | TA3 Door Controller II (techage:ta3_doorcontroller2)<br />Exchange a block<br />*idx* is the inventory slot number (1..n) of/for the block to be exchanged |
-| "set" | inventory slot number | TA3 Door Controller II (techage:ta3_doorcontroller2)<br />Set/add a block<br />*idx* is the inventory slot number (1..n) with the block to be set |
-| "dig" | inventory slot number | TA3 Door Controller II (techage:ta3_doorcontroller2)<br />Dig/remove a block<br />*idx* is the empty inventory slot number (1..n) for the block |
-| "a2b" | nil | TA4 Move Controller command to move the block(s) from position A to B |
-| "b2a" | nil | TA4 Move Controller command to move the block(s) from position B to A |
-| "move" | nil | TA4 Move Controller command to move the block(s) to the opposite position |
-| "move2" | x,y,z | TA4 Move Controller command to move the block(s) by the given<br /> x/y/z-distance. Valid ranges for x, y, and z are -100 to 100.<br />Example: `$send_cmnd("1674", "move2", "0,4,0")` |
-| "moveto" | x,y,z | TA4 Move Controller command to move the block(s) to the given<br /> absolute x/y/z-position. |
-| "reset" | nil | Reset TA4 Move Controller (move block(s) to start position) |
-| "left" | nil | TA4 Turn Controller command to turn the block(s) to the left |
-| "right" | nil | TA4 Turn Controller command to turn the block(s) to the right |
-| "uturn" | nil | TA4 Turn Controller command to turn the block(s) 180 degrees |
-| "recipe" | `<item_name>,<item_name>,...` | Set the TA4 Autocrafter recipe. <br />Example for the torch recipe: `default:coal_lump,,,default:stick` <br />Hint: Empty fields may only be left out at the end of the item list! |
-| "recipe" | `<number>.<index>` | Set the TA4 Autocrafter recipe with a recipe from a TA4 Recipe Block.<br />`<number>` is the TA4 Recipe Block number<br />`<index>` is the number of the recipe in the TA4 Recipe Block |
-| "goto" | `<slot>` | Start command for the TA4 Sequencer. `<slot>` is the time slot like `[1]` where the execution starts. |
-| "stop" | nil | Stop command for the TA4 Sequencer. |
-| "gain" | volume | Set volume of the sound block (`volume` is a value between 0 and 1.0) |
-| "sound" | index | Select sound sample of the sound block |
-| "color" | \<color> | Set the color of the TechAge Color Lamp and TechAge Color Lamp 2 (color = 0..255) |
+### Обмен сообщениями между контроллерами Lua
 
-### Server and Terminal Functions
+Сообщения используются для передачи данных между контроллерами. Входящие сообщения хранятся в очереди (до 10 штук).
 
-The Server is used to store data permanently/non-volatile. It can also be used to share data between several Controllers.
-- `$server_write(num, key, value)` - Store a value on the server under the key _key_. _key_ must be a string. _value_ can be either a number, string, boolean, nil or data structure. 
-  **This function does not allow nested data structures**. 
-  _num_ is the number of the Server. 
-  Example: `$server_write("0123", "state", state)`
-- `$server_read(num, key)` - Read a value from the server. _key_ must be a string. _num_ is the number of the Server, like "1234".
+- `$get_msg([raw])` — прочитать сообщение. Возвращает номер отправителя (строка) и само сообщение. Если `raw` не задан или false, сообщение гарантированно строка.  
+- `$send_msg(num, msg)` — отправить сообщение контроллеру с номером `num` (строка).
 
-The Terminal can send text strings as events to the Controller.
-In contrast the Controller can send text strings to the terminal.
+### Дополнительные функции
 
-- `$get_term()` - Read a text command received from the Terminal
-- `$put_term(num, text)` - Send a text string to the Terminal.  _num_ is the number of the Terminal.
+- `$chat(text)` — отправить себе сообщение в чат  
+- `$door(pos, text)` — открыть/закрыть дверь по координатам.  
+  Пример: `$door("123,7,-1200", "close")`  
+  Подсказка: используйте Techage Info Tool для определения координат.
+- `$item_description("default:apple")` — получить локализованное название предмета по его техническому имени  
+  Пример:
+  ```
+  str = $send_cmnd("223", "itemstring", 1)
+  descr = $item_description(str)
+  ```
+- `$display(num, row, text)` — отправить текст на дисплей.  
+  `row`: 1–5 — строка; 0 — прокрутка снизу.  
+  Если первый символ — пробел, текст центрируется по горизонтали.
+- `$clear_screen(num)` — очистить экран дисплея  
+- `$position(num)` — вернуть позицию устройства в виде строки `"(x,y,z)"`  
 
-### Communication between Lua Controllers
+## Примеры скриптов
 
-Messages are used to transport data between Controllers. Messages can contain arbitrary data. Incoming messages are stored in order (up to 10) and can be read one after the other.
+### Простой счётчик
 
-* `$get_msg([raw])` - Read a received message. The function returns the sender number as string and the message. (see example "Emails"). If the _raw_ parameter is not set or false, the message is guaranteed to be a string.
-* `$send_msg(num, msg)` - Send a message to another Controller.  _num_ is the destination number as string. (see example "Emails")
-
-### Further Functions
-
-* `$chat(text)` - Send yourself a chat message. _text_ is a text string.
-* `$door(pos, text)` - Open/Close a door at position "pos".    
-  Example: `$door("123,7,-1200", "close")`.    
-  Hint: Use the Techage Info Tool to determine the door position.
-* `$item_description("default:apple")`
-  Get the description (item name) for a specified itemstring, e. g. determined via the TA4 8x2000 Chest command `itemstring`:
-  `str = $send_cmnd("223", "itemstring", 1)`
-  `descr = $item_description(str)`
-
-* `$display(num, row, text)` Send a text string to the display with number _num_. _row_ is the display row, a value from 1 to 5, or 0 to add the text string at the bottom (scroll screen mode).  _text_ is the string to be displayed.  If the first char of the string is a blank, the text will be horizontally centered.
-* `$clear_screen(num)` Clear the screen of the display with number _num_.
-* `$position(num)` Returns the position as string "'(x,y,z)" of the device with the given _num_.
-
-## Example Scripts
-
-### Simple Counter
-
-Very simple example with output on the Controller menu.
+Очень простой пример с выводом в меню контроллера.
 
 init() code:
-
 ```lua
 a = 1
 ```
 
 loop() code:
-
 ```lua
 a = a + 1
 $print("a = "..a)
 ```
 
-
-
 ### Hello World
 
-"Hello world" example with output on the Display.
+Пример с выводом на дисплей.
 
 init() code:
-
 ```lua
-a = Array("Hello", "world", "of", "Minetest")
+a = Array("Привет", "мир", "Minetest")
 
 $clear_screen("0669")
 
@@ -509,17 +481,13 @@ for i,text in a.next() do
 end
 ```
 
+### Цикл for с range(from, to)
 
-
-### For Loop with range(from, to)
-
-Second "Hello world" example with output on the Display,
-implemented by means of a for/range loop.
+Альтернативная реализация Hello World с использованием цикла `range`.
 
 init() code:
-
 ```lua
-a = Array("Hello", "world", "of", "Minetest")
+a = Array("Привет", "мир", "Minetest")
 
 $clear_screen("0669")
 
@@ -529,172 +497,149 @@ for i in range(1, 4) do
 end
 ```
 
+### Мониторинг сундука и печи
 
-
-### Monitoring Chest & Furnace
-
-More realistic example to read Pusher states and output them on a display:
+Более реалистичный пример: чтение состояния толкателей и вывод на дисплей.
 
 init() code:
-
 ```lua
-DISPLAY = "1234"  -- adapt this to your display number
+DISPLAY = "1234"  -- укажите номер вашего дисплея
 min = 0
 ```
 
 loop() code:
-
 ```lua
--- call code every 60 sec
+-- выполнять код каждые 60 сек
 if ticks % 60 == 0 then
-    -- output time in minutes
+    -- вывод времени в минутах
     min = min + 1
-    $display(DISPLAY, 1, min.." min")
+    $display(DISPLAY, 1, min.. " мин ")
 
-    -- Cactus chest overrun
-    sts = $send_cmnd("1034", "state") -- read pusher status
-    if sts == "blocked" then $display(DISPLAY, 2, "Cactus full") end
+    -- переполнение сундука кактуса
+    sts = $send_cmnd("1034", "state") -- статус толкателя
+    if sts == "blocked" then $display(DISPLAY, 2, "Кактус полон") end
 
-    -- Tree chest overrun
-    sts = $send_cmnd("1065", "state")  -- read pusher status
-    if sts == "blocked" then $display(DISPLAY, 3, "Tree full") end
+    -- переполнение сундука дерева
+    sts = $send_cmnd("1065", "state")
+    if sts == "blocked" then $display(DISPLAY, 3, "Дерево полон") end
 
-    -- Furnace fuel empty
-    sts = $send_cmnd("1544", "state")  -- read pusher status
-    if sts == "standby" then $display(DISPLAY, 4, "Furnace fuel") end
+    -- печь без топлива
+    sts = $send_cmnd("1544", "state")
+    if sts == "standby" then $display(DISPLAY, 4, "Топливо в печи") end
 end
 ```
 
+### Простой калькулятор
 
-
-
-### Simple Calculator
-
-A simple calculator (adds entered numbers) by means of a Lua Controller and a Terminal.
+Калькулятор, суммирующий введённые числа через терминал.
 
 init() code:
-
 ```lua
 $events(true)
 $loopcycle(0)
 
-TERM = "360" -- terminal number, to be adapted!
+TERM = "360" -- номер терминала (подставьте свой!)
 sum = 0
-$put_term(TERM, "sum = "..sum)
+$put_term(TERM, "сумма = "..sum)
 ```
 
 loop() code:
-
 ```lua
-s = $get_term() -- read text from terminal
+s = $get_term() -- читаем текст из терминала
 if s then
-    val = tonumber(s) or 0  -- convert to number
+    val = tonumber(s) or 0
     sum = sum + val
-    text = string.format("+%d = %d", val, sum) -- format output string
-    $put_term(TERM, text)  -- output to terminal
+    text = string.format("+%d = %d", val, sum)
+    $put_term(TERM, text)
 end
 ```
 
+### Приветственный дисплей
 
-
-### Welcome Display
-
-In addition to the controller, you also need a player detector and a display.
-When the Player Detector detects a player the player name is shown on the display:
+При обнаружении игрока его имя выводится на дисплей.
 
 init() code:
-
 ```lua
 $events(true)
 $loopcycle(0)
 
-SENSOR = "365"   -- player detector number, to be adapted!
-DISPLAY = "367"  -- display number, to be adapted!
+SENSOR = "365"   -- номер детектора игроков
+DISPLAY = "367"  -- номер дисплея
 
 $clear_screen(DISPLAY)
 ```
 
 loop() code:
-
 ```lua
 if event then
     name = $send_cmnd(SENSOR, "name")
-    if name == "" then -- no player arround
+    if name == "" then -- игроков рядом нет
         $clear_screen(DISPLAY)
     else
-        $display(DISPLAY, 2, " Welcome")
+        $display(DISPLAY, 2, " Добро пожаловать")
         $display(DISPLAY, 3, " "..name)
     end
 end
 ```
 
-
-
 ### Sensor Chest
 
-The following example shows the functions/commands to be used with the Sensor Chest:
+Пример работы с Sensor Chest.
 
 init() code:
-
 ```lua
 $events(true)
 $loopcycle(0)
 
-SENSOR = "372"   -- sensor chest number, to be adapted!
+SENSOR = "372"   -- номер Sensor Chest
 
-$send_cmnd(SENSOR, "text", "press both buttons and\nput something into the chest")
+$send_cmnd(SENSOR, "text", "нажмите обе кнопки и\nположите что-нибудь в сундук")
 ```
 
 loop() code:
-
 ```lua
 if event and $get_input(SENSOR) == "on" then
-    -- read inventory state
+    -- состояние инвентаря
     state = $send_cmnd(SENSOR, "state")
-    $print("state: "..state)
-    -- read player name and action
+    $print("состояние: "..state)
+    -- имя игрока и действие
     name, action = $send_cmnd(SENSOR, "action")
-    $print("action"..": "..name.." "..action)
-    -- read inventory content
+    $print("действие: "..name.." "..action)
+    -- содержимое инвентаря
     stacks = $send_cmnd(SENSOR, "stacks")
     for i,stack in stacks.next() do
-        $print("stack: "..stack.get("name").."  "..stack.get("count"))
+        $print("стак: "..stack.get("name").."   "..stack.get("count"))
     end
-    $print("")
+    $print(" ")
 end
 ```
 
+### Чтение кнопки «TA4 4x Button»
 
+Кнопка TA4 4x Button не отправляет команды `on`/`off`, поэтому для получения её сигналов используется `$get_msg()`.
 
-### Read the "TA4 4x Button"
-
-For the `$get_input(...)` function, the Lua controller expects received `on`/`off` commands. However, the "TA4 4x Button" is not able to send an `on` command followed by an `off` command.  To be able to receive commands from "TA4 4x Button", the `$get_msg()` function has to be used.
-
-Therefore, the "TA4 4x Button" (Type set to "button") has to be programmed with commands like: `msg 1`, `msg 2`, `msg 3`, `msg 4`.
-
-The following example demonstrates receiving "TA4 4x Button" commands:
+Кнопка должна быть настроена с командами вида: `msg 1`, `msg 2`, и т.д.
 
 init() code:
-
 ```lua
 $events(true)
 $loopcycle(0)
 
-BUTTON = "372"   -- "TA4 4x Button" number, to be adapted!
+BUTTON = "372"   -- номер TA4 4x Button
 ```
 
 loop() code:
-
 ```lua
 if event then
     num,text = $get_msg()
     if num == BUTTON then
-        $print("button: " .. text)
+        $print("кнопка: " .. text)
     end
 end
 ```
 
-If the buttons are pressed, the "outp" window of the Lua controller will look like:
+При нажатии кнопок окно `outp` будет содержать:
+
 
 ```
 button: 1
@@ -703,51 +648,47 @@ button: 3
 button: 2
 ```
 
+### Электронная почта
 
+Для создания системы электронной почты вам понадобятся TA4 Lua Server и по одному TA4 Lua Controller с терминалом на каждого игрока.  
+TA4 Lua Server выступает в роли базы данных для сопоставления имён игроков и номеров блоков.
 
-### Emails
-
-For an email system you need a TA4 Lua Server and a TA4 Lua Controller with Terminal per player.
-The TA4 Lua Server serves as database for player name/block number resolution.
-
-* Each Player needs its own Terminal and Controller. The Terminal has to be connected with the Controller
-* Each Controller runs the same Lua Script, only the numbers and the owner names are different
-* To send a message, enter the receiver name and the text message like `Tom: hello` into the Terminal
-* The Lua script will determine the destination number and send the message to the destination Controller
-* All players who should be able to take part in the email system have to be entered into the Server form
-
-init() code:
+* Каждому игроку необходим собственный терминал и контроллер. Терминал должен быть подключён к контроллеру.  
+* На всех контроллерах выполняется один и тот же скрипт на Lua; отличаются только номера блоков и имена владельцев.  
+* Чтобы отправить сообщение, введите в терминал имя получателя и текст сообщения в формате `Том: привет`.  
+* Скрипт Lua определит номер получателя и отправит сообщение соответствующему контроллеру.  
+* Все игроки, которые должны иметь возможность участвовать в системе электронной почты, должны быть добавлены в форму сервера.
 
 ```lua
 $loopcycle(0)
 $events(true)
 
--- Start: update to your conditions
+-- НАЧАЛО: подставьте свои данные
 TERM = "360"
 CONTROLLER = "359"
-NAME = "Tom"
+NAME = "Том"
 SERVER = "363"
--- End: update to your conditions
+-- КОНЕЦ
 
 $print($server_write(SERVER, NAME, CONTROLLER))
 $print($server_write(SERVER, CONTROLLER, NAME))
+
 ```
 
-loop() code:
-
+loop()
 ```lua
--- read from Terminal and send the message
+-- отправка
 s = $get_term()
 if s then
     name,text = string.split2(s, ":", false, 1)
     num = $server_read(SERVER, name)
     if num then
         $send_msg(num, text)
-        $put_term(TERM, "message sent")
+        $put_term(TERM, "сообщение отправлено")
     end
 end
-    
--- read message and output to terminal
+
+-- получение
 num,text = $get_msg()
 if num then
     name = $server_read(SERVER, num)
