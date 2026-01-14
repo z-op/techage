@@ -84,7 +84,7 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "The TA2 Power Generator is required to operate lamps or other power consumers on a steam engine. The TA2 Power Generator has to be connected to drive axles on one side and then supplies electricity on the other side.\n"..
+    "The TA2 Power Generator is required to operate lamps or other electrical power consumers on a steam engine. The TA2 Power Generator has to be connected to drive axles on one side and then supplies electricity on the other side.\n"..
     "\n"..
     "If the Power Generator is not supplied with sufficient power\\, it goes into an error state and must be reactivated with a right-click.\n"..
     "\n"..

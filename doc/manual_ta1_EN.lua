@@ -13,7 +13,7 @@ return {
     "3,Hammer",
     "3,Gravel Sieve",
     "3,Hopper",
-    "3,Gravel seven with the hopper",
+    "3,Gravel sieve with the hopper",
     "3,Meridium",
   },
   texts = {

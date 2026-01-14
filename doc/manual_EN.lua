@@ -100,17 +100,17 @@ return {
     "Basalt is only created when lava and water come together.\n"..
     "The best thing to do is to set up a system where a lava and a water source flow together.\n"..
     "Basalt is formed where both liquids meet.\n"..
-    "You can build an automated basalt generator with the Sign Bot.\n"..
+    "You can build an automated basalt generator with the Sign Bot or Quarry.\n"..
     "\n"..
     "\n"..
     "\n",
     "  - 28.09.2019: Solar system added\n"..
     "  - 05.10.2019: Data on the solar system and description of the inverter and the power terminal changed\n"..
     "  - 18.11.2019: Chapter for ores\\, reactor\\, aluminum\\, silo\\, bauxite\\, furnace heating\\, gravel washing system added\n"..
-    "  - 22.02.2020: corrections and chapters on the update\n"..
+    "  - 22.02.2020: Сorrections and chapters on the update\n"..
     "  - 29.02.2020: ICTA controller added and further corrections\n"..
-    "  - 14.03.2020 Lua controller added and further corrections\n"..
-    "  - 22.03.2020 More TA4 blocks added\n"..
+    "  - 14.03.2020: Lua controller added and further corrections\n"..
+    "  - 22.03.2020: More TA4 blocks added\n"..
     "\n",
   },
   images = {
