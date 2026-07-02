@@ -58,3 +58,40 @@ fix(ru): add missing CRT Monitor and Observation Window sections
 
 Branch: `localisation_ru`
 Remote: `git@github.com:z-op/techage.git`
+
+## i18n.py — locale template sync
+
+The repository root contains `i18n.py`, a Minetest i18n tool that scans all
+`.lua` files for `S()` calls and regenerates `locale/template.txt` and all
+`locale/*.tr` translation files accordingly.
+
+### When to run
+
+Run `python3 i18n.py` from the repo root **after any of these changes**:
+
+1. Adding, modifying, or removing `S("...")` calls in any `.lua` file
+   (this includes the ICTA formspec help and Lua controller help).
+2. Adding or removing translatable strings in Lua source files.
+3. Before committing locale changes, to ensure `template.txt` matches
+   the actual source strings.
+
+### What it does
+
+- Scans all `.lua` files for `S("string")` — including any new strings
+  added by code changes.
+- Regenerates `locale/template.txt` with all found strings + source file
+  comments.
+- Updates each `locale/*.tr` file: adds new keys, preserves existing
+  translations, and (unless `--truncate-unused` is passed) keeps orphaned
+  translations marked with a comment header.
+- Creates `*.old` backup files when `--old-file` is passed.
+
+### Typical usage
+
+```bash
+cd /path/to/techage
+python3 i18n.py --verbose --old-file
+```
+
+The `--old-file` flag creates `.tr.old` backups. The `--verbose` flag
+shows which files are scanned and how many strings are found in each.
