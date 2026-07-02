@@ -21,8 +21,19 @@ local S = techage.S
 local Pipe = techage.LiquidPipe
 local liquid = networks.liquid
 
--- Checks if the filter structure is ok and returns the amount of gravel
-local function checkStructure(pos)
+local Recipes = {
+	["techage:redmud"] = {
+		filter = "default:gravel",
+		spent_filter = "default:desert_cobble",
+		output = "techage:lye",
+		output_chance = 0.5,
+		degradation_chance = 0.5,
+	},
+}
+
+
+-- Checks if the filter structure is ok and returns the amount of active filters
+local function checkStructure(pos, active_filter, spent_filter)
 	local pos1_outer = {x=pos.x-2,y=pos.y-7,z=pos.z-2}
 	local pos2_outer = {x=pos.x+2,y=pos.y,z=pos.z+2}
 	local pos1_inner = {x=pos.x-1,y=pos.y-1,z=pos.z-1}
@@ -33,13 +44,13 @@ local function checkStructure(pos)
 	local pos2_bottom = {x=pos.x+2,y=pos.y-8,z=pos.z+2}
 
 
-	local gravel = minetest.find_nodes_in_area(pos1_inner, pos2_inner, {"default:gravel"})
+	local filter = minetest.find_nodes_in_area(pos1_inner, pos2_inner, {active_filter})
 
 	local _, inner = minetest.find_nodes_in_area(pos1_inner, pos2_inner, {
-		"default:desert_cobble"
+		spent_filter
 	})
-	if #gravel + (inner["default:desert_cobble"] or 0) ~= 63 then -- 7x3x3=63
-		return false, gravel
+	if #filter + (inner[spent_filter] or 0) ~= 63 then -- 7x3x3=63
+		return false, filter
 	end
 
 	local _, outer = minetest.find_nodes_in_area(pos1_outer, pos2_outer, {
@@ -52,15 +63,15 @@ local function checkStructure(pos)
 	-- ------------------------------
 	-- =          44 (total concrete)
 	if outer["basic_materials:concrete_block"] ~= 44 then
-		return false, gravel
+		return false, filter
 	end
 	if outer["default:obsidian_glass"] ~= 84 then -- 4x7x3=84
-		return false, gravel
+		return false, filter
 	end
 
 	local _,top = minetest.find_nodes_in_area(pos1_top, pos2_top, {"air"})
 	if top["air"] ~= 8 then
-		return false, gravel
+		return false, filter
 	end
 
 	local _,bottom = minetest.find_nodes_in_area(pos1_bottom, pos2_bottom, {
@@ -68,14 +79,14 @@ local function checkStructure(pos)
 		"techage:ta3_pipe_wall_entry"
 	})
 	if bottom["basic_materials:concrete_block"] ~= 22 or bottom["techage:ta3_pipe_wall_entry"] ~= 2 then
-		return false, gravel
+		return false, filter
 	end
 
 	if minetest.get_node({x=pos.x,y=pos.y-8,z=pos.z}).name ~= "techage:ta4_liquid_filter_sink" then
-		return false, gravel
+		return false, filter
 	end
 
-	return true, gravel
+	return true, filter
 end
 
 minetest.register_node("techage:ta4_liquid_filter_filler", {
@@ -118,24 +129,28 @@ liquid.register_nodes({"techage:ta4_liquid_filter_filler"},
 		capa = 1,
 		peek = function(...) return nil end,
 		put = function(pos, indir, name, amount)
-			local structure_ok, gravel = checkStructure(pos)
-			if name ~= "techage:redmud" then
+			local recipe = Recipes[name]
+			if recipe == nil then
 				return amount
 			end
+			local structure_ok, filters = checkStructure(pos, recipe.filter, recipe.spent_filter)
 			if not structure_ok then
 				return amount
 			end
-			if #gravel < 33 then
+			if #filters < 33 then
 				return amount
 			end
-			if math.random() < 0.5 then
+
+			local dice = math.random()
+			if dice < recipe.output_chance then
 				local out_pos = {x=pos.x,y=pos.y-8,z=pos.z}
-				local leftover = liquid.put(out_pos, Pipe, networks.side_to_outdir(out_pos, "R"), "techage:lye", 1)
+				local leftover = liquid.put(out_pos, Pipe, networks.side_to_outdir(out_pos, "R"), recipe.output, 1)
 				if leftover > 0 then
 					return amount
 				end
-			else
-				minetest.swap_node(gravel[math.random(#gravel)], {name = "default:desert_cobble"})
+			end
+			if dice > (1.0 - recipe.degradation_chance) then
+				minetest.swap_node(filters[math.random(#filters)], {name = recipe.spent_filter})
 			end
 			return amount - 1
 		end,

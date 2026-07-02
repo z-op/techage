@@ -518,6 +518,7 @@ return {
     "\n"..
     "\n",
     "Only the appearance of the TA4 player detector has changed. The functionality is the same as with the TA3 player detector.\n"..
+    "In addition\\, the search radius can be configured via the wrench menu. The radius can be set to 1 to 8 blocks (default: 4).\n"..
     "\n"..
     "\n"..
     "\n",
@@ -859,7 +860,7 @@ return {
     "Here are the additional commands for the Lua controller:\n"..
     "\n"..
     "  - 'config' is used to configure the pusher\\, analogous to manual configuration via the menu.\n Example: '$send_cmnd(1234\\, \"config\"\\, \"default:dirt\")'\n With '$send_cmnd(1234\\, \"config\"\\, \"\")' the configuration is deleted\n"..
-    "  - 'limit' is used to set the number of items for the flow limiter mode:\n Example: '$send_cmnd(1234\\, \"init\"\\, 7)'\n"..
+    "  - 'limit' is used to set the number of items for the flow limiter mode:\n Example: '$send_cmnd(1234\\, \"limit\"\\, 7)'\n"..
     "\n"..
     "\n"..
     "\n",

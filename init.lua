@@ -13,7 +13,7 @@
 techage = {}
 
 -- Version for compatibility checks, see readme.md/history
-techage.version = 1.23
+techage.version = 1.25
 
 if minetest.get_modpath("tubelib") then
 	error("Techage can't be used together with the mod tubelib!")
@@ -40,6 +40,8 @@ techage.BLEND = minetest.features.use_texture_alpha_string_modes and "blend" or 
 techage.NodeDef = {}  -- node registration info
 
 techage.max_num_forceload_blocks = tonumber(minetest.settings:get("techage_max_num_forceload_blocks")) or 24
+techage.max_active_quarries = tonumber(minetest.settings:get("techage_max_active_quarries")) or 0
+techage.ta5_digitizer_expoints = tonumber(minetest.settings:get("techage_ta5_digitizer_expoints")) or 50
 
 techage.ore_rarity = tonumber(minetest.settings:get("techage_ore_rarity")) or 1
 techage.basalt_sieve_chance = tonumber(minetest.settings:get("techage_basalt_sieve_chance")) or 40
@@ -178,7 +180,6 @@ dofile(MP.."/fusion_reactor/gas_pipe.lua")
 
 -- Basic Machines
 dofile(MP.."/basic_machines/consumer.lua")  -- consumer base model
-dofile(MP.."/basic_machines/source.lua")
 dofile(MP.."/basic_machines/pusher.lua")
 dofile(MP.."/basic_machines/foreign_nodes.lua")
 dofile(MP.."/basic_machines/mods_support.lua")
@@ -229,7 +230,7 @@ dofile(MP.."/furnace/recipes.lua")
 -- Tools
 dofile(MP.."/tools/trowel.lua")
 dofile(MP.."/tools/end_wrench.lua")
-dofile(MP.."/tools/assembly_tool.lua")
+dofile(MP.."/tools/cordless_screwdriver.lua")
 dofile(MP.."/tools/pipe_wrench.lua")
 dofile(MP.."/basic_machines/blackhole.lua")
 dofile(MP.."/basic_machines/forceload.lua")
@@ -326,6 +327,7 @@ if techage.recipe_checker_enabled then
 	dofile(MP.."/recipe_checker.lua")
 end
 dofile(MP.."/.test/sink.lua")
+dofile(MP.."/.test/source.lua")
 dofile(MP.."/.test/testblock.lua")
 
 -- Solar
@@ -453,6 +455,9 @@ dofile(MP.."/observer/observer.lua")
 
 --Compatibility with other mods functions
 dofile(MP.."/basis/compatibility.lua")
+
+-- TA5 Machinery
+dofile(MP.."/ta5_nodes/ta5_digitizer.lua")
 
 -- Prevent other mods from using IE
 techage.IE = nil
