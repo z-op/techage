@@ -95,3 +95,32 @@ python3 i18n.py --verbose --old-file
 
 The `--old-file` flag creates `.tr.old` backups. The `--verbose` flag
 shows which files are scanned and how many strings are found in each.
+
+## markdown_to_lua.py — in-game manual regeneration
+
+The `manuals/markdown_to_lua.py` script generates `doc/manual_*.lua` files
+from the corresponding `manuals/manual_*.md` markdown files. It uses
+`mistune==0.8.4` for Markdown parsing.
+
+### When to run
+
+Run `python3 manuals/markdown_to_lua.py` from the repo root **after**:
+
+1. Adding, removing, or editing sections in any `manuals/manual_*.md` file.
+2. Creating a new language manual (e.g. `manual_XX.md`).
+
+### What it does
+
+- Regenerates ALL `doc/manual_*.lua` files from their markdown sources.
+- Preserves the same structure (titles, texts, images, plans).
+- The script has all file mappings hardcoded at the bottom.
+
+### Typical usage
+
+```bash
+cd /path/to/techage
+python3 manuals/markdown_to_lua.py
+```
+
+Run it BEFORE running `i18n.py`, because the doc Lua files may contain
+`S()` calls that need to be picked up by the i18n template scanner.
