@@ -1,10 +1,5 @@
 # textdomain: techage
 
-##[ .test/source.lua ]##
-Power Source=Stromquelle
-Axle Power Source=Achsenkraftquelle
-Ele Power Source=Ele Kraftquelle
-
 ##[ basic_machines/autocrafter.lua ]##
 Autocrafter=Autocrafter
 
@@ -118,6 +113,11 @@ Recipe=Rezept
 ##[ basic_machines/recycler.lua ]##
 Recycler=Recycler
 
+##[ basic_machines/source.lua ]##
+Power Source=Stromquelle
+Axle Power Source=Achsenkraftquelle
+Ele Power Source=Ele Kraftquelle
+
 ##[ basic_machines/ta4_chest.lua ]##
 TA4 8x2000 Chest=TA4 8x2000 Kiste
 Unlock=Entsperren
@@ -216,9 +216,6 @@ To add liquids punch@nthe tank@nwith a liquid container=Um Flüssigkeit nachzuf�
 Liquid Tank=Flüssigkeitstank
 Allow public access to the tank=Erlaube öffentlichen Zugriff auf den Tank
 
-##[ basis/pack_lib.lua ]##
-Use the cordless screwdriver to place it! (item must be in hotbar slot 1)=Benutze den Akkuschrauber zum Setzen! (Item muss in Hotbar-Slot 1 liegen)
-
 ##[ basis/recipe_lib.lua ]##
 ##[ chemistry/ta4_reactor.lua ]##
 Catalyst=Katalysator
@@ -237,9 +234,6 @@ Block @1 connected to @2 at pos. @3=Block @1 verbunden mit @2 bei Position @3.
 server not connected=Server nicht verbunden
 Connected=Verbunden
 Distance > @1 blocks=Abstand > @1 Blöcke
-
-##[ basis/teleport.lua ]##
-##[ fusion_reactor/controller.lua ]##
 Ex-points missing (@1 < @2)=Erf.-Punkte fehlen  (@1 < @2)
 
 ##[ basis/tube_wall_entry.lua ]##
@@ -489,10 +483,10 @@ TA5 Fusion Reactor Nucleus=TA5 Fusionsreaktor Kern
 ##[ fusion_reactor/ta5_pump.lua ]##
 Operation=Betrieb
 Pump direction=Pumprichtung
-Coolant=Kühlmittel
-Amount of isobutane in the cooling system=Menge des Isobutans im Kühlkreislauf
 TA5 Pump=TA5 Pumpe
 blocked: destination full or not connected=blockiert: Ziel voll oder nicht verbunden
+Coolant=Kühlmittel
+Amount of isobutane in the cooling system=Menge des Isobutans im Kühlkreislauf
 
 ##[ fusion_reactor/ta5_pump.lua ]##
 ##[ liquids/pump.lua ]##
@@ -514,6 +508,7 @@ Electricity=Strom
 
 ##[ hydrogen/electrolyzer.lua ]##
 ##[ hydrogen/nitrogen.lua ]##
+Storage full=Speicher voll
 Turnoff point reached=Abschaltpunkt erreicht
 Maximum power consumption [ku]=maximale Stromaufnahme
 Maximum possible@ncurrent consumption=Maximal mögliche Stromaufnahme
@@ -521,11 +516,6 @@ Current limitation=Strombegrenzung
 Configurable value@nfor the current limit=Konfigurierbarer Wert@nfür die Strombegrenzung
 Turnoff point=Abschaltpunkt
 If the charge of the storage@nsystem falls below the configured value,@nthe block switches off=unterschreitet die Ladung des@nSpeichersystems den konfigurierten@nWert, schaltet sich der Block ab
-
-##[ hydrogen/electrolyzer.lua ]##
-##[ hydrogen/nitrogen.lua ]##
-##[ ta5_nodes/ta5_digitizer.lua ]##
-Storage full=Speicher voll
 
 ##[ hydrogen/fuelcell.lua ]##
 Fuel Cell=Brennstoffzelle
@@ -541,39 +531,6 @@ TA4 Nitrogen collector=TA4 Stickstoffsammler
 
 ##[ icta_controller/battery.lua ]##
 Battery=Batterie
-
-##[ icta_controller/formspec.lua ]##
-ICTA Controller Help=
-Control other nodes by means of rules like:=
-IF <condition> THEN <action>=
-These rules allow to execute actions based on conditions.=
-Examples for conditions are:=
-the Player Detector detects a player=
-a button is pressed=
-a machine is fault, blocked, standby,...=
-Actions are:=
-switch on/off lamps and machines=
-send chat messages to the owner=
-output a text message to the display=
-The controller executes all rules cyclically.=
-The cycle time for each rule is configurable=
-sec=
-0 means, the rule will only be called, if=
-the controller received a command from=
-another blocks, such as buttons.=
-Actions can be delayed. Therefore, the 'after' value can be set=
-Edit command examples:=
-exchange rows 1 with row 8=
-copy row 1 to 2=
-delete row 3=
-The 'outp' tab is for debugging outputs via 'print'=
-The 'notes' tab for your notes.=
-The controller needs battery power to work.=
-The battery pack has to be placed near the controller=
-node distance=
-The needed battery power is directly dependent=
-on the CPU time the controller consumes.=
-The Manual in English:=
 
 ##[ iron_age/charcoalpile.lua ]##
 Dirt with Ash=Erde mit Asche
@@ -1142,13 +1099,6 @@ TA4 Traffic Light Pole=TA4 Ampel Mast
 TA4 Traffic Light Connector=TA4 Ampel Verbinder
 TA4 Traffic Light Arm=TA4 Ampel Arm
 
-##[ lua_controller/controller.lua ]##
-TA4 Lua Controller=
-This controller is used to control and monitor TechAge machines.=
-This controller can be programmed in Lua.=
-See on GitHub for more help:=
-or download the PDF file from:=
-
 ##[ lua_controller/sensorchest.lua ]##
 Allow public chest access=Erlaube öffentlichen Zugriff
 TA4 Sensor Chest=Sensorkiste
@@ -1469,22 +1419,6 @@ TA4 Laser Beam Receiver=TA4 Laserstrahl Empfänger
 ##[ ta4_power/transformer.lua ]##
 TA4 Isolation Transformer=TA4 Trenntransformator
 
-##[ ta5_nodes/ta5_digitizer.lua ]##
-TA5 Digitizer=TA5 Digitizer
-Control,Storage=Steuerung,Speicher
-Configured@nItem=Konfiguriertes@nItem
-Needs @1 ku power=
-pull=
-push=
-no configured item=kein Item konfiguriert
-No configured item=Kein Item konfiguriert
-Invalid item type=Ungültiger Item-Typ
-Item not storable (not stackable, has metadata, or is worn)=Item nicht speicherbar (nicht stapelbar, hat Metadaten oder ist beschädigt)
-[Digitizer] Stop the Digitizer first!=[Digitizer] Digitizer zuerst stoppen.[Digitizer] Speicher nicht leer! Bitte zuerst den Speicher leeren.
-[Digitizer] Storage not empty! Empty the storage first.=[Digitizer] Speicher nicht leer! Speicher zuerst leeren.
-TA5 Control Unit=TA5 Steuereinheit
-TA5 SSD=TA5 SSD
-
 ##[ teleport/teleport_pipe.lua ]##
 TA5 Teleport Block Liquids=TA5 Teleport Block Flüssigkeiten
 
@@ -1494,6 +1428,9 @@ Remote block error=Fehler entfernter Block
 
 ##[ teleport/teleport_tube.lua ]##
 TA5 Teleport Block Items=TA5 Teleport Block Gegenstände
+
+##[ tools/assembly_tool.lua ]##
+TechAge Assembly Tool=TechAge Montagewerkzeug
 
 ##[ tools/cordless_screwdriver.lua ]##
 TechAge Cordless Screwdriver=TechAge Akkuschrauber
@@ -1511,6 +1448,7 @@ TechAge Info Tool (use @= read status info)=TechAge Info Werkzeug
 TA3 Drill Pipe Wrench=TA3 Bohrgestängezange
 
 ##[ tools/screwdriver.lua ]##
+Use the cordless screwdriver to place it! (item must be in hotbar slot 1)=Benutze den Akkuschrauber zum Setzen! (Item muss in Hotbar-Slot 1 liegen)
 Block alignment stored!=Blockausrichtung gespeichert!
 Techage Screwdriver@n(See: TA3 > Tools)=Techage Schraubendreher@n(Siehe: TA3 > Werkzeuge)
 
@@ -1533,15 +1471,29 @@ TA4 Wind Turbine Signal Lamp=TA4 Windkraftanlagenlampe
 
 ##### not used anymore #####
 
-TechAge Assembly Tool=TechAge Montagewerkzeug
 Test Chest=Testkiste
 Test Mini Tank=Testminitank
 Test Generator=Test Generator
 Test Storage=Test Speicher
 TA3 Detector=TA3 Detektor
 output: Empty @1 or @2 with @3 expected=Leeres/Leerer @1 oder @2 mit @3 erwartet
+
+##[ ta5_nodes/ta5_digitizer.lua ]##
+TA5 Digitizer=TA5 Digitizer
+TA5 Control Unit=TA5 Steuereinheit
+TA5 SSD=TA5 SSD
+Control,Storage=Steuerung,Speicher
+Configured@nItem=Konfiguriertes@nItem
+no configured item=kein Item konfiguriert
+No configured item=Kein Item konfiguriert
+Invalid item type=Ungültiger Item-Typ
+Item not storable (not stackable, has metadata, or is worn)=Item nicht speicherbar (nicht stapelbar, hat Metadaten oder ist beschädigt)
+[Digitizer] Storage not empty! Empty the storage first.=[Digitizer] Speicher nicht leer! Speicher zuerst leeren.
+[Digitizer] Stop the Digitizer first!=[Digitizer] Digitizer zuerst stoppen.[Digitizer] Speicher nicht leer! Bitte zuerst den Speicher leeren.
+
 # Added by agent for ICTA/Lua controller help localization
 Block=
 Cooling failed=Kühlung ausgefallen
 Plasma ring shape error=Formfehler des Plasmarings
 Shell shape error@n(@1% found / 100% expected)=Hüllenformfehler@n(@1% erkannt / 100% erwartet)
+at pos.=

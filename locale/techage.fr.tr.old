@@ -1,10 +1,5 @@
 # textdomain: techage
 
-##[ .test/source.lua ]##
-Power Source=
-Axle Power Source=
-Ele Power Source=
-
 ##[ basic_machines/autocrafter.lua ]##
 Autocrafter=Crafteur Automatique
 
@@ -101,7 +96,6 @@ Start level=
 Digging depth=
 Hole size=
 inventory full=
-Max. number of active quarries reached!=
 
 ##[ basic_machines/quarry.lua ]##
 ##[ basic_machines/waterremover.lua ]##
@@ -117,6 +111,11 @@ Recipe=
 
 ##[ basic_machines/recycler.lua ]##
 Recycler=
+
+##[ basic_machines/source.lua ]##
+Power Source=
+Axle Power Source=
+Ele Power Source=
 
 ##[ basic_machines/ta4_chest.lua ]##
 TA4 8x2000 Chest=TA4 Coffre 8x2000
@@ -216,9 +215,6 @@ To add liquids punch@nthe tank@nwith a liquid container=
 Liquid Tank=
 Allow public access to the tank=
 
-##[ basis/pack_lib.lua ]##
-Use the cordless screwdriver to place it! (item must be in hotbar slot 1)=
-
 ##[ basis/recipe_lib.lua ]##
 ##[ chemistry/ta4_reactor.lua ]##
 Catalyst=
@@ -237,9 +233,6 @@ Block @1 connected to @2 at pos. @3=
 server not connected=
 Connected=
 Distance > @1 blocks=
-
-##[ basis/teleport.lua ]##
-##[ fusion_reactor/controller.lua ]##
 Ex-points missing (@1 < @2)=
 
 ##[ basis/tube_wall_entry.lua ]##
@@ -489,10 +482,10 @@ TA5 Fusion Reactor Nucleus=
 ##[ fusion_reactor/ta5_pump.lua ]##
 Operation=
 Pump direction=
-Coolant=Liquide de refroidissement
-Amount of isobutane in the cooling system=Quantité d'isobutane dans le circuit de refroidissement
 TA5 Pump=
 blocked: destination full or not connected=
+Coolant=Liquide de refroidissement
+Amount of isobutane in the cooling system=Quantité d'isobutane dans le circuit de refroidissement
 
 ##[ fusion_reactor/ta5_pump.lua ]##
 ##[ liquids/pump.lua ]##
@@ -514,6 +507,7 @@ Electricity=Électricité
 
 ##[ hydrogen/electrolyzer.lua ]##
 ##[ hydrogen/nitrogen.lua ]##
+Storage full=
 Turnoff point reached=
 Maximum power consumption [ku]=
 Maximum possible@ncurrent consumption=
@@ -521,11 +515,6 @@ Current limitation=
 Configurable value@nfor the current limit=
 Turnoff point=
 If the charge of the storage@nsystem falls below the configured value,@nthe block switches off=
-
-##[ hydrogen/electrolyzer.lua ]##
-##[ hydrogen/nitrogen.lua ]##
-##[ ta5_nodes/ta5_digitizer.lua ]##
-Storage full=
 
 ##[ hydrogen/fuelcell.lua ]##
 Fuel Cell=Cellules à combustible
@@ -541,39 +530,6 @@ TA4 Nitrogen collector=
 
 ##[ icta_controller/battery.lua ]##
 Battery=Batterie
-
-##[ icta_controller/formspec.lua ]##
-ICTA Controller Help=
-Control other nodes by means of rules like:=
-IF <condition> THEN <action>=
-These rules allow to execute actions based on conditions.=
-Examples for conditions are:=
-the Player Detector detects a player=
-a button is pressed=
-a machine is fault, blocked, standby,...=
-Actions are:=
-switch on/off lamps and machines=
-send chat messages to the owner=
-output a text message to the display=
-The controller executes all rules cyclically.=
-The cycle time for each rule is configurable=
-sec=
-0 means, the rule will only be called, if=
-the controller received a command from=
-another blocks, such as buttons.=
-Actions can be delayed. Therefore, the 'after' value can be set=
-Edit command examples:=
-exchange rows 1 with row 8=
-copy row 1 to 2=
-delete row 3=
-The 'outp' tab is for debugging outputs via 'print'=
-The 'notes' tab for your notes.=
-The controller needs battery power to work.=
-The battery pack has to be placed near the controller=
-node distance=
-The needed battery power is directly dependent=
-on the CPU time the controller consumes.=
-The Manual in English:=
 
 ##[ iron_age/charcoalpile.lua ]##
 Dirt with Ash=Saleté avec cendre
@@ -1142,13 +1098,6 @@ TA4 Traffic Light Pole=
 TA4 Traffic Light Connector=
 TA4 Traffic Light Arm=
 
-##[ lua_controller/controller.lua ]##
-TA4 Lua Controller=
-This controller is used to control and monitor TechAge machines.=
-This controller can be programmed in Lua.=
-See on GitHub for more help:=
-or download the PDF file from:=
-
 ##[ lua_controller/sensorchest.lua ]##
 Allow public chest access=
 TA4 Sensor Chest=
@@ -1469,22 +1418,6 @@ TA4 Laser Beam Receiver=
 ##[ ta4_power/transformer.lua ]##
 TA4 Isolation Transformer=
 
-##[ ta5_nodes/ta5_digitizer.lua ]##
-TA5 Digitizer=
-Control,Storage=
-Configured@nItem=
-Needs @1 ku power=
-pull=
-push=
-no configured item=
-No configured item=
-Invalid item type=
-Item not storable (not stackable, has metadata, or is worn)=
-[Digitizer] Stop the Digitizer first!=
-[Digitizer] Storage not empty! Empty the storage first.=
-TA5 Control Unit=
-TA5 SSD=
-
 ##[ teleport/teleport_pipe.lua ]##
 TA5 Teleport Block Liquids=
 
@@ -1495,8 +1428,8 @@ Remote block error=
 ##[ teleport/teleport_tube.lua ]##
 TA5 Teleport Block Items=
 
-##[ tools/cordless_screwdriver.lua ]##
-TechAge Cordless Screwdriver=
+##[ tools/assembly_tool.lua ]##
+TechAge Assembly Tool=
 
 ##[ tools/end_wrench.lua ]##
 Biome=
@@ -1554,5 +1487,10 @@ Use a trowel to remove the node.=Utilisez une truelle pour enlever le noeud.
 TA3 Valve closed=TA3 Valve fermée
 TA3 Valve open=TA3 Valve ouverte
 Here is not enough wind (A free air space of 41x41x21 m is necessary)!=Ici, il n'y a pas assez de vent (un espace libre de 41x41x21 m est nécessaire)!
+
 # Added by agent for ICTA/Lua controller help localization
 Block=
+Cooling failed=
+Plasma ring shape error=
+Shell shape error@n(@1% found / 100% expected)=
+at pos.=

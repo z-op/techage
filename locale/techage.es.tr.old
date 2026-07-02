@@ -1,10 +1,5 @@
 # textdomain: techage
 
-##[ .test/source.lua ]##
-Power Source=Fuente de energía
-Axle Power Source=Fuente de energía de eje
-Ele Power Source=Fuente de energía eléctrica
-
 ##[ basic_machines/autocrafter.lua ]##
 Autocrafter=Fabricante automático
 
@@ -118,6 +113,11 @@ Recipe=Receta
 ##[ basic_machines/recycler.lua ]##
 Recycler=Reciclador
 
+##[ basic_machines/source.lua ]##
+Power Source=Fuente de energía
+Axle Power Source=Fuente de energía de eje
+Ele Power Source=Fuente de energía eléctrica
+
 ##[ basic_machines/ta4_chest.lua ]##
 TA4 8x2000 Chest=Cofre TA4 8x2000
 Unlock=Desbloquear
@@ -216,9 +216,6 @@ To add liquids punch@nthe tank@nwith a liquid container=Para añadir líquidos g
 Liquid Tank=Depósito de líquido
 Allow public access to the tank=Permitir acceso público al depósito
 
-##[ basis/pack_lib.lua ]##
-Use the cordless screwdriver to place it! (item must be in hotbar slot 1)=¡Usa el destornillador inalámbrico para colocarlo! (el objeto debe estar en la ranura 1 de la barra de acceso rápido)
-
 ##[ basis/recipe_lib.lua ]##
 ##[ chemistry/ta4_reactor.lua ]##
 Catalyst=Catalizador
@@ -237,9 +234,6 @@ Block @1 connected to @2 at pos. @3=Bloque @1 conectado a @2 en pos. @3
 server not connected=servidor no conectado
 Connected=Conectado
 Distance > @1 blocks=Distancia > @1 bloques
-
-##[ basis/teleport.lua ]##
-##[ fusion_reactor/controller.lua ]##
 Ex-points missing (@1 < @2)=Puntos de experiencia insuficientes (@1 < @2)
 
 ##[ basis/tube_wall_entry.lua ]##
@@ -489,10 +483,10 @@ TA5 Fusion Reactor Nucleus=Núcleo del reactor de fusión TA5
 ##[ fusion_reactor/ta5_pump.lua ]##
 Operation=Operación
 Pump direction=Dirección de la bomba
-Coolant=Refrigerante
-Amount of isobutane in the cooling system=Cantidad de isobutano en el sistema de enfriamiento
 TA5 Pump=Bomba TA5
 blocked: destination full or not connected=bloqueado: destino lleno o no conectado
+Coolant=Refrigerante
+Amount of isobutane in the cooling system=Cantidad de isobutano en el sistema de enfriamiento
 
 ##[ fusion_reactor/ta5_pump.lua ]##
 ##[ liquids/pump.lua ]##
@@ -514,6 +508,7 @@ Electricity=Electricidad
 
 ##[ hydrogen/electrolyzer.lua ]##
 ##[ hydrogen/nitrogen.lua ]##
+Storage full=Almacenamiento lleno
 Turnoff point reached=Punto de apagado alcanzado
 Maximum power consumption [ku]=Consumo máximo de energía [ku]
 Maximum possible@ncurrent consumption=Consumo de corriente@nmáximo posible
@@ -521,11 +516,6 @@ Current limitation=Limitación de corriente
 Configurable value@nfor the current limit=Valor configurable@npara el límite de corriente
 Turnoff point=Punto de apagado
 If the charge of the storage@nsystem falls below the configured value,@nthe block switches off=Si la carga del sistema de@nalmacenamiento cae por debajo del valor configurado,@nel bloque se apaga
-
-##[ hydrogen/electrolyzer.lua ]##
-##[ hydrogen/nitrogen.lua ]##
-##[ ta5_nodes/ta5_digitizer.lua ]##
-Storage full=Almacenamiento lleno
 
 ##[ hydrogen/fuelcell.lua ]##
 Fuel Cell=Celda de combustible
@@ -541,39 +531,6 @@ TA4 Nitrogen collector=Colector de nitrógeno TA4
 
 ##[ icta_controller/battery.lua ]##
 Battery=Batería
-
-##[ icta_controller/formspec.lua ]##
-ICTA Controller Help=
-Control other nodes by means of rules like:=
-IF <condition> THEN <action>=
-These rules allow to execute actions based on conditions.=
-Examples for conditions are:=
-the Player Detector detects a player=
-a button is pressed=
-a machine is fault, blocked, standby,...=
-Actions are:=
-switch on/off lamps and machines=
-send chat messages to the owner=
-output a text message to the display=
-The controller executes all rules cyclically.=
-The cycle time for each rule is configurable=
-sec=
-0 means, the rule will only be called, if=
-the controller received a command from=
-another blocks, such as buttons.=
-Actions can be delayed. Therefore, the 'after' value can be set=
-Edit command examples:=
-exchange rows 1 with row 8=
-copy row 1 to 2=
-delete row 3=
-The 'outp' tab is for debugging outputs via 'print'=
-The 'notes' tab for your notes.=
-The controller needs battery power to work.=
-The battery pack has to be placed near the controller=
-node distance=
-The needed battery power is directly dependent=
-on the CPU time the controller consumes.=
-The Manual in English:=
 
 ##[ iron_age/charcoalpile.lua ]##
 Dirt with Ash=Tierra con ceniza
@@ -997,16 +954,16 @@ Send signal if light level is above:=Enviar señal si el nivel de luz está por 
 TA3 Light Detector=Detector de luz TA3
 
 ##[ logic/logic_block.lua ]##
-Send an 'on'/'off' command if the@nexpression becomes true.@n=
-@nRule:@n<output> @= on/off if <input-expression> is true@n=
-@n<output> is the block number to which the@ncommand should be sent.@n=
-@n<input-expression> is a boolean expression@nwhere input numbers are evaluated.@n=
-@nExamples:@n1234 @=@= on@n1234 @=@= off@n1234 @=@= on and 2345 @=@= off@n2345 ~@= 3456@n=
-@nValid operators:@nand   or   on   off   me   @=@=   ~@=   (   )@n=
-'~@=' means: not equal@n=
-'me' has to be used for the own block number.@n=
-@nAll rules are checked with each received@ncommand.=
-@nThe internal processing time for all@ncommands is 100 ms.=
+Send an 'on'/'off' command if the@nexpression becomes true.@n=Enviar un comando 'on'/'off' si la@nexpresión se vuelve verdadera.@n=
+@nRule:@n<output> @= on/off if <input-expression> is true@n=@nRegla:@n<salida> @= on/off si <expresión-entrada> es verdadera@n=
+@n<output> is the block number to which the@ncommand should be sent.@n=@n<salida> es el número de bloque al que se@ndebe enviar el comando.@n=
+@n<input-expression> is a boolean expression@nwhere input numbers are evaluated.@n=@n<expresión-entrada> es una expresión booleana@ndonde se evalúan los números de entrada.@n=
+@nExamples:@n1234 @=@= on@n1234 @=@= off@n1234 @=@= on and 2345 @=@= off@n2345 ~@= 3456@n=@nEjemplos:@n1234 @=@= on@n1234 @=@= off@n1234 @=@= on and 2345 @=@= off@n2345 ~@= 3456@n=
+@nValid operators:@nand   or   on   off   me   @=@=   ~@=   (   )@n=@nOperadores válidos:@nand   or   on   off   me   @=@=   ~@=   (   )@n=
+'~@=' means: not equal@n='~@=' significa: no igual@n=
+'me' has to be used for the own block number.@n='me' debe usarse para el número del propio bloque.@n=
+@nAll rules are checked with each received@ncommand.=@nTodas las reglas se comprueban con cada@ncomando recibido.=
+@nThe internal processing time for all@ncommands is 100 ms.=@nEl tiempo de procesamiento interno para todos@nlos comandos es 100 ms.=
 Rules=Reglas
 Debug=Depuración
 Inputs=Entradas
@@ -1082,19 +1039,19 @@ TA3 Sequencer=Secuenciador TA3
 stopped=detenido
 
 ##[ logic/sequencer2.lua ]##
-Syntax:@n=
-'[<num>] <command>'@n=
-@n=
-<num> is a number from 1 to 50000 and is@n=
-the timeslot when the command is executed.@n=
- - 1 corresponds to 100 ms@n=
- - 50000 corresponds to 4 game days@n=
-<command> is one of the following:@n=
- - 'send <node num> <cmnd>' (techage command)@n=
- - 'goto <num>'  (jump to another line)@n=
- - 'stop' (stop the execution)@n=
- - 'nop' (do nothing)@n=
-Example:@n=
+Syntax:@n=Sintaxis:@n=
+'[<num>] <command>'@n='[<num>] <comando>'@n=
+@n=@n=
+<num> is a number from 1 to 50000 and is@n=<num> es un número del 1 al 50000 y es@n=
+the timeslot when the command is executed.@n=el intervalo de tiempo en que se ejecuta el comando.@n=
+ - 1 corresponds to 100 ms@n= - 1 corresponde a 100 ms@n=
+ - 50000 corresponds to 4 game days@n= - 50000 corresponde a 4 días de juego@n=
+<command> is one of the following:@n=<comando> es uno de los siguientes:@n=
+ - 'send <node num> <cmnd>' (techage command)@n= - 'send <num nodo> <cmnd>' (comando techage)@n=
+ - 'goto <num>'  (jump to another line)@n= - 'goto <num>'  (saltar a otra línea)@n=
+ - 'stop' (stop the execution)@n= - 'stop' (detener la ejecución)@n=
+ - 'nop' (do nothing)@n= - 'nop' (no hacer nada)@n=
+Example:@n=Ejemplo:@n=
 Cycle time=Tiempo de ciclo
 Timer cycle time (default: 100 ms)=Tiempo de ciclo del temporizador (predeterminado: 100 ms)
 Ignore OFF command=Ignorar comando OFF
@@ -1141,13 +1098,6 @@ TA4 Traffic Light=Semáforo TA4
 TA4 Traffic Light Pole=Poste de semáforo TA4
 TA4 Traffic Light Connector=Conector de semáforo TA4
 TA4 Traffic Light Arm=Brazo de semáforo TA4
-
-##[ lua_controller/controller.lua ]##
-TA4 Lua Controller=
-This controller is used to control and monitor TechAge machines.=
-This controller can be programmed in Lua.=
-See on GitHub for more help:=
-or download the PDF file from:=
 
 ##[ lua_controller/sensorchest.lua ]##
 Allow public chest access=Permitir acceso público al cofre
@@ -1342,7 +1292,7 @@ Number of generators:=Número de generadores:
 Number of consumers:=Número de consumidores:
 Number of storage systems:=Número de sistemas de almacenamiento:
 TA3 Power Terminal=Terminal de energía TA3
-Commands@nhelp . . . print this text@ncls  . . . . clear screen@ngen    . . print generators@nsto     . . print storage systems@ncon1  . . print consumers with power consumption between 1 and 10 ku@ncon2  . . print consumers with power consumption with 10 ku or above@n=
+Commands@nhelp . . . print this text@ncls  . . . . clear screen@ngen    . . print generators@nsto     . . print storage systems@ncon1  . . print consumers with power consumption between 1 and 10 ku@ncon2  . . print consumers with power consumption with 10 ku or above@n=Comandos@nhelp . . . imprimir este texto@ncls  . . . . limpiar pantalla@ngen    . . imprimir generadores@nsto     . . imprimir sistemas de almacenamiento@ncon1  . . imprimir consumidores con consumo entre 1 y 10 ku@ncon2  . . imprimir consumidores con consumo de 10 ku o más@n=
 
 ##[ power/powerswitch.lua ]##
 TA Power Switch=Interruptor eléctrico TA
@@ -1469,22 +1419,6 @@ TA4 Laser Beam Receiver=Receptor de rayo láser TA4
 ##[ ta4_power/transformer.lua ]##
 TA4 Isolation Transformer=Transformador de aislamiento TA4
 
-##[ ta5_nodes/ta5_digitizer.lua ]##
-TA5 Digitizer=Digitalizador TA5
-Control,Storage=Control,Almacenamiento
-Configured@nItem=Objeto@nconfigurado
-Needs @1 ku power=
-pull=
-push=
-no configured item=ningún objeto configurado
-No configured item=Ningún objeto configurado
-Invalid item type=Tipo de objeto no válido
-Item not storable (not stackable, has metadata, or is worn)=Objeto no almacenable (no apilable, tiene metadatos o está desgastado)
-[Digitizer] Stop the Digitizer first!=[Digitizer] ¡Detén el Digitalizador primero!
-[Digitizer] Storage not empty! Empty the storage first.=[Digitizer] ¡El almacenamiento no está vacío! Vacía el almacenamiento primero.
-TA5 Control Unit=Unidad de control TA5
-TA5 SSD=SSD TA5
-
 ##[ teleport/teleport_pipe.lua ]##
 TA5 Teleport Block Liquids=Bloque de teletransporte de líquidos TA5
 
@@ -1494,6 +1428,9 @@ Remote block error=Error de bloque remoto
 
 ##[ teleport/teleport_tube.lua ]##
 TA5 Teleport Block Items=Bloque de teletransporte de objetos TA5
+
+##[ tools/assembly_tool.lua ]##
+TechAge Assembly Tool=Herramienta de ensamblaje TechAge
 
 ##[ tools/cordless_screwdriver.lua ]##
 TechAge Cordless Screwdriver=Destornillador inalámbrico TechAge
@@ -1511,6 +1448,7 @@ TechAge Info Tool (use @= read status info)=Herramienta de información TechAge 
 TA3 Drill Pipe Wrench=Llave de tubería de perforación TA3
 
 ##[ tools/screwdriver.lua ]##
+Use the cordless screwdriver to place it! (item must be in hotbar slot 1)=¡Usa el destornillador inalámbrico para colocarlo! (el objeto debe estar en la ranura 1 de la barra de acceso rápido)
 Block alignment stored!=¡Alineación del bloque almacenada!
 Techage Screwdriver@n(See: TA3 > Tools)=Destornillador Techage@n(Ver: TA3 > Herramientas)
 
@@ -1530,7 +1468,15 @@ TA4 Rotor Blade=Pala del rotor TA4
 ##[ wind_turbine/signallamp.lua ]##
 TA4 Wind Turbine Signal Lamp=Lámpara de señal de turbina eólica TA4
 
-
-##### not used anymore #####
-
-TechAge Assembly Tool=Herramienta de ensamblaje TechAge
+##[ ta5_nodes/ta5_digitizer.lua ]##
+TA5 Digitizer=Digitalizador TA5
+TA5 Control Unit=Unidad de control TA5
+TA5 SSD=SSD TA5
+Control,Storage=Control,Almacenamiento
+Configured@nItem=Objeto@nconfigurado
+no configured item=ningún objeto configurado
+No configured item=Ningún objeto configurado
+Invalid item type=Tipo de objeto no válido
+Item not storable (not stackable, has metadata, or is worn)=Objeto no almacenable (no apilable, tiene metadatos o está desgastado)
+[Digitizer] Storage not empty! Empty the storage first.=[Digitizer] ¡El almacenamiento no está vacío! Vacía el almacenamiento primero.
+[Digitizer] Stop the Digitizer first!=[Digitizer] ¡Detén el Digitalizador primero!
