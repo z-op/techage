@@ -16,19 +16,23 @@
 local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local M = minetest.get_meta
 
-local sHELP = [[TA4 Lua Controller
+local function lua_help_text()
+	local t = {
+		techage.S("TA4 Lua Controller"),
+		"",
+		" " .. techage.S("This controller is used to control and monitor TechAge machines."),
+		" " .. techage.S("This controller can be programmed in Lua."),
+		"",
+		" " .. techage.S("See on GitHub for more help:"),
+		" https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.md",
+		"",
+		" " .. techage.S("or download the PDF file from:"),
+		" https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.pdf",
+	}
+	return table.concat(t, "\n")
+end
 
- This controller is used to control and monitor
- TechAge machines.
- This controller can be programmed in Lua.
-
- See on GitHub for more help:
- https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.md
-
- or download the PDF file from:
- https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.pdf
-
-]]
+local sHELP = lua_help_text()
 
 techage.lua_ctlr = {}
 

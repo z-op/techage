@@ -16,7 +16,7 @@ Red Mud Canister=Канистра красного шлама
 
 ### ammonia.lua ###
 
-TA4 Ammonia=
+TA4 Ammonia=TA4 Аммиак
 
 ### assemble.lua ###
 ### firebox_lib.lua ###
@@ -46,7 +46,7 @@ Baborium Ore=Кусок бабориевой руды
 
 Gas Cylinder Large=Большой газовый баллон
 Gas Cylinder Small=Маленький газовый баллон
-River Water=
+River Water=Речная вода
 River Water Barrel=Бочка речной воды
 TA Empty Barrel=TA Пустая бочка
 TA3 Canister=TA3 Канистра
@@ -368,9 +368,9 @@ TA4 Display XL=TA4 Дисплей XL
 ### display2.lua ###
 
 Background color=Цвет фона
-Select color of the display background (0..63)@nSee chat command '/ta_color64'=
-Select color of the screen text (0..63)@nSee chat command '/ta_color64'=
-Select resolution of the display in characters x lines=
+Select color of the display background (0..63)@nSee chat command '/ta_color64'=Выберите цвет фона дисплея (0..63)@nСмотрите чат-команду '/ta_color64'
+Select color of the screen text (0..63)@nSee chat command '/ta_color64'=Выберите цвет текста экрана (0..63)@nСмотрите чат-команду '/ta_color64'
+Select resolution of the display in characters x lines=Выберите разрешение дисплея в символах x строк
 TA4 Display II=TA4 Дисплей II
 TA4 Display II XXL inside=TA4 Дисплей II XXL внутренний
 TA4 Display II XXL outside=TA4 Дисплей II XXL внешний
@@ -449,7 +449,7 @@ Reset=Переустановить
 ### drillbox.lua ###
 
 Build derrick=Построить буровую установку
-Cannot drill @1=
+Cannot drill @1=Не могу бурить @1
 Depth=Глубина
 Drill Bit=Бурильная труба
 Drill area is protected=Зона бурения защищена
@@ -762,7 +762,7 @@ TA4 LED Grow Light=TA4 Светодиодная лампа для выращив
 
 ### gunpowder.lua ###
 
-Gun Powder=
+Gun Powder=Порох
 
 ### hammer.lua ###
 
@@ -1061,11 +1061,11 @@ missing=утрачено
 
 ### nitrogen.lua ###
 
-Nitrogen Cylinder Large=
-Nitrogen Cylinder Small=
-Nitrogen collector=
-TA4 Nitrogen=
-TA4 Nitrogen collector=
+Nitrogen Cylinder Large=Большой баллон с азотом
+Nitrogen Cylinder Small=Малый баллон с азотом
+Nitrogen collector=Сборщик азота
+TA4 Nitrogen=TA4 Азот
+TA4 Nitrogen collector=TA4 Сборщик азота
 
 ### node_detector.lua ###
 
@@ -1267,7 +1267,7 @@ TA4 Recipe Block=TA4 Блок рецепта
 ### recipes.lua ###
 
 Flint and Iron=Огниво
-TA1 Iron Block=
+TA1 Iron Block=TA1 Железный блок
 TA1 Iron Ingot=TA1 Железный слиток
 [Bucket] Lava can only be placed below sea level!=[Ведро] Лава может быть расположена только ниже уровня моря!
 
@@ -1326,7 +1326,7 @@ stopped=остановлено
 @n=@n
 Commands=Команды
 Cycle time=Время цикла
-Delay in seconds for start of execution when map block is reloaded=
+Delay in seconds for start of execution when map block is reloaded=Задержка в секундах перед началом выполнения при перезагрузке блока карты
 Delay on reload=Задержка при перезагрузке
 Example:@n=Пример:@n
 If 'yes' a received OFF command won't stop the sequencer=Если 'yes', то полученная OFF команда не остановит секвенсор
@@ -1473,8 +1473,8 @@ right to left=справа налево
 Doser=Дозатор
 TA4 Doser=TA4 Дозатор
 catalyst missing=отсутствует катализатор
-output: A @1 is required for @2=
-output: Invalid recipe=
+output: A @1 is required for @2=выход: Для @2 требуется @1
+output: Invalid recipe=выход: Неверный рецепт
 reactor defect=дефект реактора
 reactor defect or no power=дефект реактора или нет энергии
 reactor has no power=у реактора нет энергии
@@ -1541,12 +1541,12 @@ TA Tank Cart=TA Вагонетка с резервуаром
 
 ### teleport.lua ###
 
-Block=
+Block=Блок
 Connected=Соединен
 Connection status=Статус соединения
 Distance > @1 blocks=Расстояние > @1 блоков
 Ex-points missing (@1 < @2)=Очки опыта отсутствуют (@1 < @2)
-at pos.=
+at pos.=на поз.
 server not connected=сервер не соединен
 
 ### teleport_pipe.lua ###
@@ -1697,3 +1697,43 @@ output: silo expected=Выход: требуется бункер
 output: tank expected=Выход: требуется резервуар
 waste: silo expected=отходы: требуется бункер
 waste: tank expected=отходы: требуется резервуар
+
+### icta_controller help ###
+ICTA Controller Help=Справка контроллера ICTA
+Control other nodes by means of rules like:=Управление блоками с помощью правил вида:
+IF <condition> THEN <action>=ЕСЛИ <условие> ТО <действие>
+These rules allow to execute actions based on conditions.=Эти правила позволяют выполнять действия на основе условий.
+Examples for conditions are:=Примеры условий:
+the Player Detector detects a player=Детектор игроков обнаружил игрока
+a button is pressed=нажата кнопка
+a machine is fault, blocked, standby,...=машина в состоянии ошибки, блокировки, ожидания,...
+Actions are:=Действия:
+switch on/off lamps and machines=включение/выключение ламп и машин
+send chat messages to the owner=отправка сообщений владельцу в чат
+output a text message to the display=вывод текстового сообщения на дисплей
+The controller executes all rules cyclically.=Контроллер выполняет все правила циклически.
+The cycle time for each rule is configurable=Время цикла для каждого правила настраивается
+sec=сек
+0 means, the rule will only be called, if=0 означает, что правило будет вызвано только в том случае, если
+the controller received a command from=контроллер получил команду от
+another blocks, such as buttons.=других блоков, таких как кнопки.
+Actions can be delayed. Therefore, the 'after' value can be set=Действия могут быть отложены. Поэтому можно задать значение 'after'
+Edit command examples:=Примеры команд редактирования:
+exchange rows 1 with row 8=обменять строки 1 и 8
+copy row 1 to 2=скопировать строку 1 в 2
+delete row 3=удалить строку 3
+The 'outp' tab is for debugging outputs via 'print'=Вкладка 'outp' предназначена для отладки через 'print'
+The 'notes' tab for your notes.=Вкладка 'notes' для ваших заметок.
+The controller needs battery power to work.=Для работы контроллера требуется батарея.
+The battery pack has to be placed near the controller=Батарея должна быть размещена рядом с контроллером
+node distance=расстояние в один блок
+The needed battery power is directly dependent=Необходимая мощность батареи напрямую зависит
+on the CPU time the controller consumes.=от времени процессора, потребляемого контроллером.
+The Manual in English:=Руководство на английском:
+
+### lua_controller help ###
+TA4 Lua Controller=TA4 Lua Контроллер
+This controller is used to control and monitor TechAge machines.=Этот контроллер используется для управления и мониторинга машин TechAge.
+This controller can be programmed in Lua.=Этот контроллер можно программировать на Lua.
+See on GitHub for more help:=Смотрите на GitHub для получения дополнительной помощи:
+or download the PDF file from:=или скачайте PDF-файл:

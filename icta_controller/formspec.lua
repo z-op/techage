@@ -16,53 +16,54 @@ techage.NUM_RULES = 8
 
 local SIZE = "size[13,8]"
 
-local sHELP = [[ICTA Controller Help
+local S = techage.S
 
-Control other nodes by means of rules like:
-    IF <condition> THEN <action>
+local function icta_help_text()
+	local t = {
+		S("ICTA Controller Help"),
+		"",
+		S("Control other nodes by means of rules like:"),
+		"    " .. S("IF <condition> THEN <action>"),
+		"",
+		S("These rules allow to execute actions based on conditions."),
+		S("Examples for conditions are:"),
+		" - " .. S("the Player Detector detects a player"),
+		" - " .. S("a button is pressed"),
+		" - " .. S("a machine is fault, blocked, standby,..."),
+		"",
+		S("Actions are:"),
+		" - " .. S("switch on/off lamps and machines"),
+		" - " .. S("send chat messages to the owner"),
+		" - " .. S("output a text message to the display"),
+		"",
+		S("The controller executes all rules cyclically."),
+		S("The cycle time for each rule is configurable") .. " (1..1000 " .. S("sec") .. ").",
+		S("0 means, the rule will only be called, if"),
+		S("the controller received a command from"),
+		S("another blocks, such as buttons."),
+		"",
+		S("Actions can be delayed. Therefore, the 'after' value can be set") .. " (0..1000 " .. S("sec") .. ").",
+		"",
+		S("Edit command examples:"),
+		" - 'x 1 8'  " .. S("exchange rows 1 with row 8"),
+		" - 'c 1 2'  " .. S("copy row 1 to 2"),
+		" - 'd 3'    " .. S("delete row 3"),
+		"",
+		S("The 'outp' tab is for debugging outputs via 'print'"),
+		S("The 'notes' tab for your notes."),
+		"",
+		S("The controller needs battery power to work."),
+		S("The battery pack has to be placed near the controller") .. " (1 " .. S("node distance") .. ").",
+		S("The needed battery power is directly dependent"),
+		S("on the CPU time the controller consumes."),
+		"",
+		S("The Manual in English:"),
+		"https://github.com/joe7575/techage/blob/master/manuals/ta4_icta_controller_EN.md",
+	}
+	return table.concat(t, "\n")
+end
 
-These rules allow to execute actions based on conditions.
-Examples for conditions are:
- - the Player Detector detects a player
- - a button is pressed
- - a machine is fault, blocked, standby,...
-
-Actions are:
- - switch on/off lamps and machines
- - send chat messages to the owner
- - output a text message to the display
-
-The controller executes all rules cyclically.
-The cycle time for each rule is configurable
-(1..1000 sec).
-0 means, the rule will only be called, if
-the controller received a command from
-another blocks, such as buttons.
-
-Actions can be delayed. Therefore, the
-'after' value can be set (0..1000 sec).
-
-Edit command examples:
- - 'x 1 8'  exchange rows 1 with row 8
- - 'c 1 2'  copy row 1 to 2
- - 'd 3'    delete row 3
-
-The 'outp' tab is for debugging outputs via 'print'
-The 'notes' tab for your notes.
-
-The controller needs battery power to work.
-The battery pack has to be placed near the
-controller (1 node distance).
-The needed battery power is directly dependent
-on the CPU time the controller consumes.
-
- The Manual in German:
- https://github.com/joe7575/techage/blob/master/manuals/ta4_icta_controller_DE.md
-
- Or the same as PDF:
- https://github.com/joe7575/techage/blob/master/manuals/ta4_icta_controller_DE.pdf
-
-]]
+local sHELP = icta_help_text()
 
 -- to simplify the search for a pressed main form button (condition/action)
 local lButtonKeys = {}
